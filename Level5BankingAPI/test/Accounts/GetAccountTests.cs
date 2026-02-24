@@ -13,7 +13,7 @@ public class GetAccountTests
     {
         // Arrange
         const string nonIncludedId = "no account";
-        var (service, _) = AccountsTestHelpers.CreateServiceAndRepository();
+        var (service, _) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
         
@@ -36,7 +36,7 @@ public class GetAccountTests
             Id = "0"
         };
         
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
         repository.AddExistingAccount(account);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;

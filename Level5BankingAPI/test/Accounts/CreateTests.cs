@@ -10,7 +10,7 @@ public class CreateTests
     {
         // Arrange
         const string validName = "Ryan L Yuncza";
-        var (service, _) = AccountsTestHelpers.CreateServiceAndRepository();
+        var (service, _) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
         var request = new CreationRequest(validName);
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
@@ -29,7 +29,7 @@ public class CreateTests
     {
         // Arrange
         const string invalidName = "invalid";
-        var (service, _) = AccountsTestHelpers.CreateServiceAndRepository();
+        var (service, _) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
         var request = new CreationRequest(invalidName);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
