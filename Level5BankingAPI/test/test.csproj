@@ -20,4 +20,14 @@
         <Using Include="NUnit.Framework"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Accounts\" />
+      <Folder Include="Authentication\" />
+      <Folder Include="Clients\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Application\Application.csproj" />
+    </ItemGroup>
+
 </Project>
