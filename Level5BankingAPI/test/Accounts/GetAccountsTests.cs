@@ -8,21 +8,21 @@ namespace test.Accounts;
 
 public class GetAccountsTests
 {
-    private readonly Account _fooAccount = new Account
+    private readonly Account _fooAccount = new()
     {
         HolderName = "Foo F Foobert",
         Balance = 0,
         Id = "0"
     };
         
-    private readonly Account _barAccount = new Account
+    private readonly Account _barAccount = new()
     {
         HolderName = "Bar B Babert",
         Balance = 1,
         Id = "1"
     };
 
-    private readonly Account _bazAccount = new Account
+    private readonly Account _bazAccount = new()
     {
         HolderName = "Baz B Bazert",
         Balance = 2,
@@ -33,9 +33,8 @@ public class GetAccountsTests
     public async Task Search_NoArgs_ReturnAccountList()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var noArgsRequest = new GetAccountsRequest(
             null, 
             null, 
             false, 
@@ -52,8 +51,7 @@ public class GetAccountsTests
         };
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
-        // var actualStatusCode
+        var (actual, _) = await service.GetAccounts(noArgsRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -64,9 +62,8 @@ public class GetAccountsTests
     public async Task Search_Name_ReturnAccountsWithName()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var onlyNamesContainingFooRequest = new GetAccountsRequest(
             "Foo", 
             null, 
             false, 
@@ -81,7 +78,7 @@ public class GetAccountsTests
         };
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
+        var (actual, _) = await service.GetAccounts(onlyNamesContainingFooRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -92,10 +89,9 @@ public class GetAccountsTests
     public async Task Search_NameNoMatch_ReturnEmptyList()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
-            "Ryan", 
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var noMatchingNameRequest = new GetAccountsRequest(
+            "R", 
             null, 
             false, 
             1, 
@@ -105,7 +101,7 @@ public class GetAccountsTests
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
+        var (actual, _) = await service.GetAccounts(noMatchingNameRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -116,9 +112,8 @@ public class GetAccountsTests
     public async Task Sort_ByName_ReturnAccountListSortedByName()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var sortByNameRequest = new GetAccountsRequest(
             null, 
             "name", 
             false, 
@@ -135,7 +130,7 @@ public class GetAccountsTests
         };
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
+        var (actual, _) = await service.GetAccounts(sortByNameRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -146,9 +141,8 @@ public class GetAccountsTests
     public async Task Sort_ByNameDescending_ReturnReversedAccountListByName()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var sortByNameDescendingRequest = new GetAccountsRequest(
             null, 
             "name", 
             true, 
@@ -165,7 +159,7 @@ public class GetAccountsTests
         };
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
+        var (actual, _) = await service.GetAccounts(sortByNameDescendingRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -176,9 +170,8 @@ public class GetAccountsTests
     public async Task Sort_ByBalance_ReturnAccountListSortedByBalance()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var sortByBalanceRequest = new GetAccountsRequest(
             null, 
             "balance", 
             false, 
@@ -195,7 +188,7 @@ public class GetAccountsTests
         };
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
+        var (actual, _) = await service.GetAccounts(sortByBalanceRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -206,9 +199,8 @@ public class GetAccountsTests
     public async Task Sort_ByBalanceDescending_ReturnReversedAccountListByBalance()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var sortByBalanceDescendingRequest = new GetAccountsRequest(
             null, 
             "balance", 
             true, 
@@ -225,7 +217,7 @@ public class GetAccountsTests
         };
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
+        var (actual, _) = await service.GetAccounts(sortByBalanceDescendingRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -236,9 +228,8 @@ public class GetAccountsTests
     public async Task Sort_ByInvalidKeyword_ReturnFailure()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var sortByInvalidKeywordRequest = new GetAccountsRequest(
             null, 
             "invalid", 
             true, 
@@ -249,7 +240,7 @@ public class GetAccountsTests
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
+        var (actual, _) = await service.GetAccounts(sortByInvalidKeywordRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -260,9 +251,8 @@ public class GetAccountsTests
     public async Task Search_EmptyDatabase_ReturnEmptyList()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, _) = AccountsTestHelpers.CreateServiceAndRepository();
+        var searchEmptyDatabaseRequest = new GetAccountsRequest(
             null, 
             null, 
             false, 
@@ -272,7 +262,7 @@ public class GetAccountsTests
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         
         // Act
-        var (actual, _) = await service.GetAccounts(request);
+        var (actual, _) = await service.GetAccounts(searchEmptyDatabaseRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -283,9 +273,8 @@ public class GetAccountsTests
     public async Task Pagination_PageNumberZeroOrLess_ReturnPageNumberOneResults()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var pageNumberZeroRequest = new GetAccountsRequest(
             null, 
             null, 
             false, 
@@ -297,7 +286,7 @@ public class GetAccountsTests
         const int expectedPageNumber = 1;
         
         // Act
-        var (actual,paginationMetadata) = await service.GetAccounts(request);
+        var (actual,paginationMetadata) = await service.GetAccounts(pageNumberZeroRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -308,9 +297,8 @@ public class GetAccountsTests
     public async Task Pagination_ValidPageNumber_ReturnRequestedPage()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var validPageNumberRequest = new GetAccountsRequest(
             null, 
             null, 
             false, 
@@ -322,7 +310,7 @@ public class GetAccountsTests
         const int expectedPageNumber = 2;
         
         // Act
-        var (actual,paginationMetadata) = await service.GetAccounts(request);
+        var (actual,paginationMetadata) = await service.GetAccounts(validPageNumberRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -333,9 +321,8 @@ public class GetAccountsTests
     public async Task Pagination_PageSizeZeroOrLess_ReturnPageSizeOneResults()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var pageSizeZeroRequest = new GetAccountsRequest(
             null,
             null,
             false,
@@ -347,7 +334,7 @@ public class GetAccountsTests
         const int expectedPageSize = 10;
         
         // Act
-        var (actual,paginationMetadata) = await service.GetAccounts(request);
+        var (actual,paginationMetadata) = await service.GetAccounts(pageSizeZeroRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -358,9 +345,8 @@ public class GetAccountsTests
     public async Task Pagination_ValidPageSize_ReturnRequestedPageSize()
     {
         // Arrange
-        var repository = AccountsTestHelpers.CreateRepository();
-        var service = AccountsTestHelpers.CreateService(repository);
-        var request = new GetAccountsRequest(
+        var (service, repository) = AccountsTestHelpers.CreateServiceAndRepository();
+        var validPageSizeRequest = new GetAccountsRequest(
             null,
             null,
             false,
@@ -372,7 +358,7 @@ public class GetAccountsTests
         const int expectedPageSize = 5;
         
         // Act
-        var (actual,paginationMetadata) = await service.GetAccounts(request);
+        var (actual,paginationMetadata) = await service.GetAccounts(validPageSizeRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);

@@ -10,7 +10,7 @@ public class CreateTests
     {
         // Arrange
         const string validName = "Ryan L Yuncza";
-        var service = AccountsTestHelpers.CreateService();
+        var (service, _) = AccountsTestHelpers.CreateServiceAndRepository();
         var request = new CreationRequest(validName);
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
@@ -29,17 +29,16 @@ public class CreateTests
     {
         // Arrange
         const string invalidName = "invalid";
-        var service = AccountsTestHelpers.CreateService();
+        var (service, _) = AccountsTestHelpers.CreateServiceAndRepository();
         var request = new CreationRequest(invalidName);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
-        var expectedContent = null as Application.DTOs.Account;
 
         // Act
         var actual = await service.CreateAccount(request);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
-        Assert.Equal(expectedContent, actual.Content);
+        Assert.Null(actual.Content);
     }
 }
