@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Presentation</name>
+    </assembly>
+    <members>
+        <member name="M:Presentation.Controllers.AccountsController.GetAccounts(System.String,System.String,System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Retrieves a list of accounts based off user specifications
+            </summary>
+            <param name="name">Only results that contain this name will be reported</param>
+            <param name="sortBy">Sort by name or balance</param>
+            <param name="isDescending">Determines if the sort order will be Ascending or Descending</param>
+            <param name="pageNumber">Sets the page that will be retrieved</param>
+            <param name="pageSize">Sets the number of entries which will appear on a given page (Max of 20)</param>
+            <returns>A list of accounts based off the entered parameters. If no parameters are entered,
+            all entries are returned</returns>
+        </member>
+        <member name="M:Presentation.Controllers.AccountsController.PostAccount(Application.DTOs.Requests.CreationRequest)">
+            <summary>
+            Creates a new Account with the provided name given the name follows the required naming convention
+            </summary>
+            <param name="request">A record which contains a string name for the new account</param>
+            <returns>The information of the generated account</returns>
+        </member>
+        <member name="M:Presentation.Controllers.AccountsController.GetAccount(System.String)">
+            <summary>
+            Retrieves an account based off a given ID
+            </summary>
+            <param name="id">The unique identification for the requested account</param>
+            <returns>The account information corresponding to the ID</returns>
+        </member>
+        <member name="M:Presentation.Controllers.AccountsController.PostDeposit(System.String,Application.DTOs.Requests.ChangeBalanceRequest)">
+            <summary>
+            Adds an entered money amount to a requested account
+            </summary>
+            <param name="id">The unique identification for the requested account</param>
+            <param name="request">A record which contains a decimal amount that will be deposited</param>
+            <returns>The updated account details</returns>
+        </member>
+        <member name="M:Presentation.Controllers.AccountsController.PostWithdraw(System.String,Application.DTOs.Requests.ChangeBalanceRequest)">
+            <summary>
+            Subtracts an entered money amount to a requested account
+            </summary>
+            <param name="id">The unique identification for the requested account</param>
+            <param name="request">A record which contains a decimal amount that will be withdrawn</param>
+            <returns>The updated account details</returns>
+        </member>
+        <member name="M:Presentation.Controllers.AccountsController.PostTransfer(Application.DTOs.Requests.TransferRequest)">
+            <summary>
+            Takes money from one account and moves it to another
+            </summary>
+            <param name="request">A record that contains an id for the sending account, an id for the receiving
+            account, along with the decimal amount that will be transferred</param>
+            <returns>The sender's updated account details</returns>
+        </member>
+        <member name="M:Presentation.Controllers.AccountsController.GetConversion(System.String,Application.DTOs.Requests.ConversionRequest)">
+            <summary>
+            Returns the balance of a provided account converted into the requested currencies
+            </summary>
+            <param name="id">The unique identification for the requested account</param>
+            <param name="request">A record which contains a string holding comma separated currencies</param>
+            <returns>A record containing a dictionary where the keys are the currency type and the values
+            are the balance converted to the respective value</returns>
+        </member>
+        <member name="M:Presentation.Controllers.AuthenticationController.GetAuthenticationToken">
+            <summary>
+            Creates a JWT
+            </summary>
+            <returns>A JWT allowing access to Accounts controller</returns>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type)">
+            <summary>
+            Generates a documentation comment ID for a type.
+            Example: T:Namespace.Outer+Inner`1 becomes T:Namespace.Outer.Inner`1
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.PropertyInfo)">
+            <summary>
+            Generates a documentation comment ID for a property.
+            Example: P:Namespace.ContainingType.PropertyName or for an indexer P:Namespace.ContainingType.Item(System.Int32)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type,System.String)">
+            <summary>
+            Generates a documentation comment ID for a property given its container type and property name.
+            Example: P:Namespace.ContainingType.PropertyName
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.MethodInfo)">
+            <summary>
+            Generates a documentation comment ID for a method (or constructor).
+            For example:
+              M:Namespace.ContainingType.MethodName(ParamType1,ParamType2)~ReturnType
+              M:Namespace.ContainingType.#ctor(ParamType)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.GetTypeDocId(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a documentation ID string for a type.
+            This method handles nested types (replacing '+' with '.'),
+            generic types, arrays, pointers, by-ref types, and generic parameters.
+            The <paramref name="includeGenericArguments"/> flag controls whether
+            constructed generic type arguments are emitted, while <paramref name="omitGenericArity"/>
+            controls whether the generic arity marker (e.g. "`1") is appended.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.NormalizeDocId(System.String)">
+            <summary>
+            Normalizes a documentation comment ID to match the compiler-style format.
+            Strips the return type suffix for ordinary methods but retains it for conversion operators.
+            </summary>
+            <param name="docId">The documentation comment ID to normalize.</param>
+            <returns>The normalized documentation comment ID.</returns>
+        </member>
+    </members>
+</doc>

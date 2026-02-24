@@ -1,0 +1,95 @@
+@Level5BankingAPI_HostAddress = http://localhost:5079
+@id = a6a3a66d-d19a-46d1-84d8-bb2470d75ce8
+
+# @name create
+POST http://{{Level5BankingAPI_HostAddress}}/api/Accounts
+Content-Type: application/json
+Accept: text/csv
+Authorization: Bearer {{auth_token}}
+
+{
+  "name": "Mom M Yuncza"
+}
+
+> {%
+    client.global.set("id", response.body.id)
+%}
+
+<> 2026-01-23T142444.200.json
+
+###
+GET http://{{Level5BankingAPI_HostAddress}}/api/Accounts/{{id}}
+Authorization: Bearer {{auth_token}}
+Accept: text/csv
+
+<> 2026-01-23T142500.200.json
+<> 2026-01-23T142459.200.json
+<> 2026-01-23T142451.200.json
+<> 2026-01-23T142450.200.json
+<> 2026-01-23T142448.200.json
+<> 2026-01-23T142447.200.json
+
+###
+POST http://{{Level5BankingAPI_HostAddress}}/api/Accounts/{{id}}/deposits
+Content-Type: application/json
+Accept: text/csv
+Authorization: Bearer {{auth_token}}
+
+{
+  "Amount": 250
+}
+
+<> 2026-01-23T142457.200.json
+<> 2026-01-23T142456.200.json
+
+###
+POST http://{{Level5BankingAPI_HostAddress}}/api/Accounts/{{id}}/withdraws
+Content-Type: application/json
+Accept: text/csv
+Authorization: Bearer {{auth_token}}
+
+{
+  "Amount": 200
+}
+
+###
+POST http://{{Level5BankingAPI_HostAddress}}/api/Accounts/transfers
+Content-Type: application/json
+Accept: text/csv
+Authorization: Bearer {{auth_token}}
+
+{
+  "Amount": 1,
+  "SenderId": "{{id}}",
+  "ReceiverId": "{{id}}"
+}
+
+###
+GET http://{{Level5BankingAPI_HostAddress}}/api/Accounts/{{id}}/convert
+Content-Type: application/json
+Accept: text/csv
+Authorization: Bearer {{auth_token}}
+
+{
+  "CurrencyType": "EUR,CAD"
+}
+
+###
+GET http://{{Level5BankingAPI_HostAddress}}/api/Accounts?name=&sortBy=Name&pageNumber=1&pageSize=10&isDescending=true
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  
+}
+
+###
+# @name create 
+GET http://{{Level5BankingAPI_HostAddress}}/api/Authentication
+Content-Type: application/json
+Accept: application/json
+
+> {%
+    client.global.set("auth_token", response.body.token)
+%}
