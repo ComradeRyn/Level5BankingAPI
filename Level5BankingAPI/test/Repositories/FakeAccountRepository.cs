@@ -8,6 +8,7 @@ namespace test.Repositories;
 public class FakeAccountRepository : IAccountsRepository
 {
     private readonly Dictionary<string, Account> _accounts;
+    private int _currentId = 0;
 
     public FakeAccountRepository(Dictionary<string, Account> accounts)
     {
@@ -65,11 +66,12 @@ public class FakeAccountRepository : IAccountsRepository
     {
         var account = new Account
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = _currentId.ToString(),
             HolderName = name,
         };
         
         _accounts.Add(account.Id, account);
+        _currentId++;
 
         return Task.FromResult(account);
     }
