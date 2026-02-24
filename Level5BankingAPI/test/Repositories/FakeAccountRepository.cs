@@ -80,7 +80,7 @@ public class FakeAccountRepository : IAccountsRepository
     {
         // TODO: look and see if this needs to be done
         var accountFromDictionary = _accounts[account.Id];
-        accountFromDictionary.Balance = amount;
+        accountFromDictionary.Balance += amount;
 
         return Task.FromResult(accountFromDictionary);
     }

@@ -14,19 +14,20 @@ public static class AccountsTestHelpers
 
         return (service, repository);
     }
-
-    public static (AccountsService, FakeAccountRepository, Account) CreateServiceAndPopulatedRepository()
+    
+    public static (AccountsService, Account) CreateServiceAndPopulatedRepository(
+        decimal balance = 0)
     {
         var (service, repository) = CreateServiceAndEmptyRepository();
         var account = new Account
         {
             HolderName = "Foo F Foobert",
-            Balance = 0,
+            Balance = balance,
             Id = "0",
         };
         
         repository.AddExistingAccount(account);
 
-        return (service, repository, account);
+        return (service, account);
     }
 }

@@ -11,7 +11,7 @@ public class DepositTests
         // Arrange
         const decimal positiveAmount = 1;
         var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
-        var (service, _, account) = AccountsTestHelpers.CreateServiceAndPopulatedRepository();
+        var (service, account) = AccountsTestHelpers.CreateServiceAndPopulatedRepository();
         var request = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
@@ -34,7 +34,7 @@ public class DepositTests
         // Arrange
         const decimal zeroOrLessAmount = -1;
         var changeBalanceRequest = new ChangeBalanceRequest(zeroOrLessAmount);
-        var (service, _, account) = AccountsTestHelpers.CreateServiceAndPopulatedRepository();
+        var (service, account) = AccountsTestHelpers.CreateServiceAndPopulatedRepository();
         var request = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
