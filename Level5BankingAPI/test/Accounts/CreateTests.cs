@@ -13,7 +13,7 @@ public class CreateTests
     {
         // Arrange
         const string validName = "Ryan L Yuncza";
-        var service = CreateService();
+        var service = AccountsTestHelpers.CreateService();
         var request = new CreationRequest(validName);
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
@@ -32,7 +32,7 @@ public class CreateTests
     {
         // Arrange
         const string invalidName = "invalid";
-        var service = CreateService();
+        var service = AccountsTestHelpers.CreateService();
         var request = new CreationRequest(invalidName);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
@@ -44,13 +44,5 @@ public class CreateTests
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
-    }
-
-    private static AccountsService CreateService()
-    {
-        var accountsDictionary = new Dictionary<string, Account>();
-        var repository = new FakeAccountRepository(accountsDictionary);
-        
-        return new AccountsService(repository, null!);
     }
 }

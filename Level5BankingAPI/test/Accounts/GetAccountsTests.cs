@@ -13,7 +13,7 @@ public class GetAccountsTests
     {
         // Arrange
         const string nonIncludedId = "no account";
-        var service = CreateService();
+        var service = AccountsTestHelpers.CreateService();
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
         var expectedContent = null as Application.DTOs.Account;
@@ -37,8 +37,8 @@ public class GetAccountsTests
             Id = "0"
         };
         
-        var repository = CreateRepository();
-        var service = CreateService(repository);
+        var repository = AccountsTestHelpers.CreateRepository();
+        var service = AccountsTestHelpers.CreateService(repository);
         repository.AddExistingAccount(account);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
@@ -50,23 +50,5 @@ public class GetAccountsTests
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
-    }
-    
-    private static AccountsService CreateService()
-    {
-        var accountsDictionary = new Dictionary<string, Account>();
-        var repository = new FakeAccountRepository(accountsDictionary);
-        
-        return new AccountsService(repository, null!);
-    }
-
-    private static AccountsService CreateService(FakeAccountRepository repository)
-        => new AccountsService(repository, null!);
-
-    private static FakeAccountRepository CreateRepository()
-    {
-        var accountsDictionary = new Dictionary<string, Account>();
-        
-        return new FakeAccountRepository(accountsDictionary);
     }
 }
