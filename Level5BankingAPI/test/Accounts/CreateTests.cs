@@ -11,7 +11,7 @@ public class CreateTests
     {
         // Arrange
         const string validName = "Foo F Foobert";
-        var (service, _) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var invalidNameRequest = new CreationRequest(validName);
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
@@ -30,7 +30,7 @@ public class CreateTests
     {
         // Arrange
         const string invalidName = "invalid";
-        var (service, _) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var invalidNameRequest = new CreationRequest(invalidName);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;

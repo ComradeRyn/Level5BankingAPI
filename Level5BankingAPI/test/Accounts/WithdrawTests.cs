@@ -56,7 +56,7 @@ public class WithdrawTests
         // Arrange
         const decimal withdrawAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var (service, _) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var validRequest = new AccountRequest<ChangeBalanceRequest>
             (nonExistentAccountId, changeBalanceRequest);

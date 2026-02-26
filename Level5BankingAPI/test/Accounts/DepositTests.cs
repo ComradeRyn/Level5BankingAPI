@@ -55,7 +55,7 @@ public class DepositTests
         const decimal positiveAmount = 1;
         const string nonExistentAccountId = "0";
         var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
-        var (service, _) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var request = new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, changeBalanceRequest);
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;

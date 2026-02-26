@@ -11,7 +11,7 @@ public class GetAccountTests
     {
         // Arrange
         const string nonIncludedId = "no account";
-        var (service, _) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
         
