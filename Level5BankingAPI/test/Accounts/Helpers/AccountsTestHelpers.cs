@@ -37,7 +37,7 @@ public static class AccountsTestHelpers
         return (service, firstAccount, secondAccount);
     }
     
-    public static (AccountsService, Account) CreateServiceWithSingleAccount(
+    public static (AccountsService, Account) CreateServiceWithOneAccount(
         decimal balance = 0)
     {
         var (service, repository) = CreateServiceAndRepository();

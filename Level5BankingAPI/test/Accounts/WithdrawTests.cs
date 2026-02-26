@@ -11,7 +11,7 @@ public class WithdrawTests
     {
         // Arrange
         const decimal accountBalance = 1;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithSingleAccount(accountBalance);
+        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
         var changeBalanceRequest = new ChangeBalanceRequest(accountBalance);
         var positiveAmountWithinBoundsRequest = new AccountRequest<ChangeBalanceRequest>
             (account.Id, changeBalanceRequest);
@@ -35,7 +35,7 @@ public class WithdrawTests
     {
         // Arrange
         const decimal withdrawAmount = -1;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithSingleAccount(withdrawAmount);
+        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount(withdrawAmount);
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var amountZeroOrLessRequest = new AccountRequest<ChangeBalanceRequest>
             (account.Id, changeBalanceRequest);
@@ -77,7 +77,7 @@ public class WithdrawTests
         // Arrange
         const decimal accountBalance = 1;
         const decimal withdrawAmount = accountBalance + 1;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithSingleAccount(accountBalance);
+        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var withdrawGreaterThanBalanceRequest = new AccountRequest<ChangeBalanceRequest>
             (account.Id, changeBalanceRequest);
