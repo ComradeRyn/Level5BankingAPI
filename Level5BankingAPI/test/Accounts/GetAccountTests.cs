@@ -10,7 +10,7 @@ public class GetAccountTests
     public async Task Get_NonExistentAccount_ReturnFailure()
     {
         // Arrange
-        const string nonIncludedId = "no account";
+        const string nonIncludedId = "invalid";
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
