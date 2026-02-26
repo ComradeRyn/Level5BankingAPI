@@ -7,7 +7,7 @@ namespace Test.Accounts;
 public class ConvertTests
 {
     [Fact]
-    public async Task Receive_ValidStatusCode_ReturnConversion()
+    public async Task Convert_toValidCurrency_ReturnConvertedCurrencies()
     {
         // Arrange
         const string validConversionRequest = "fakeCurrency";
@@ -31,10 +31,10 @@ public class ConvertTests
     }
     
     [Fact]
-    public async Task Receive_InvalidStatusCode_ReturnFailure()
+    public async Task Convert_toInvalidCurrency_ReturnFailure()
     {
         // Arrange
-        const string invalidConversionRequest = "invalid";
+        const string invalidConversionRequest = "invalidCurrency";
 
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
         var conversionRequest = new ConversionRequest(invalidConversionRequest);
@@ -57,7 +57,7 @@ public class ConvertTests
         const string validConversionRequest = "fakeCurrency";
         const string nonexistentId = "invalid";
 
-        var service = AccountsTestHelpers.CreateServiceWithConversionDictionaryAndNoAccount();
+        var service = AccountsTestHelpers.CreateServiceWithConversionDictionaryAndEmptyRepository();
         var conversionRequest = new ConversionRequest(validConversionRequest);
         var yieldsInvalidStatusCodeRequest = new AccountRequest<ConversionRequest>(nonexistentId, conversionRequest);
 

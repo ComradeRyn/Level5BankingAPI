@@ -84,7 +84,7 @@ public static class AccountsTestHelpers
         return (service, account);
     }
 
-    public static AccountsService CreateServiceWithConversionDictionaryAndNoAccount()
+    public static AccountsService CreateServiceWithConversionDictionaryAndEmptyRepository()
     {
         var conversionDictionary = new Dictionary<string, decimal>()
         {
