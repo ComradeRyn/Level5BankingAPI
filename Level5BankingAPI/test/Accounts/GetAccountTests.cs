@@ -29,15 +29,7 @@ public class GetAccountTests
     public async Task Get_ExistentAccount_ReturnFoundAccount()
     {
         // Arrange
-        var account = new Account
-        {
-            HolderName = "Ryan L Yuncza",
-            Balance = 0,
-            Id = "0"
-        };
-        
-        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
-        repository.AddExistingAccount(account);
+        var (service, account) = AccountsTestHelpers.CreateServiceWithPopulatedRepository();
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = account.AsDto();
