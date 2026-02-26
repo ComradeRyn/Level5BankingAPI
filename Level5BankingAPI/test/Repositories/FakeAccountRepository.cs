@@ -3,7 +3,7 @@ using Application.DTOs;
 using Application.Interfaces;
 using Account = Domain.Models.Account;
 
-namespace test.Repositories;
+namespace Test.Repositories;
 
 public class FakeAccountRepository : IAccountsRepository
 {

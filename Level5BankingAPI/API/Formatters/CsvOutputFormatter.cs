@@ -2,7 +2,7 @@
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc.Formatters;
 
-namespace Presentation.Formatters;
+namespace API.Formatters;
 
 public class CsvOutputFormatter : TextOutputFormatter
 {

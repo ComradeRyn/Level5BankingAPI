@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace test.Accounts.Helpers;
+namespace Test.Accounts.Helpers;
 
 public static class DummyAccounts
 {

@@ -2,7 +2,7 @@ using Application.DTOs.Responses;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Presentation.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

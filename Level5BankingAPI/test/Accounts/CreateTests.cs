@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
-using test.Accounts.Helpers;
+using Test.Accounts.Helpers;
 
-namespace test.Accounts;
+namespace Test.Accounts;
 
 public class CreateTests
 {

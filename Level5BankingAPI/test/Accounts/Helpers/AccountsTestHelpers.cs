@@ -1,8 +1,8 @@
 ﻿using Application.Services;
 using Domain.Models;
-using test.Repositories;
+using Test.Repositories;
 
-namespace test.Accounts.Helpers;
+namespace Test.Accounts.Helpers;
 
 public static class AccountsTestHelpers
 {

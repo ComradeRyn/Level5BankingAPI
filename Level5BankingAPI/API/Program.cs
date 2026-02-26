@@ -1,4 +1,6 @@
 using System.Reflection;
+using API.Formatters;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Clients;
 using Application.Interfaces;
@@ -7,8 +9,6 @@ using Application.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using Presentation.Formatters;
-using Presentation.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

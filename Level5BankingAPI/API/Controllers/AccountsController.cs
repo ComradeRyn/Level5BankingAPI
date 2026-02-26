@@ -6,7 +6,7 @@ using Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Presentation.Controllers
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

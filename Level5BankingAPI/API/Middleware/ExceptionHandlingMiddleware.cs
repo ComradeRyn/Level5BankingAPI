@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Presentation.Middleware;
+namespace API.Middleware;
 
 public class ExceptionHandlingMiddleware
 {
