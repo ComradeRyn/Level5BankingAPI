@@ -20,7 +20,7 @@ public class AuthenticationTests
 
     private static IConfiguration BuildConfiguration()
     {
-        var myConfiguration = new Dictionary<string, string>
+        var authenticationDetails = new Dictionary<string, string>
         {
             {
                 "Authentication:SecretForKey",
@@ -31,7 +31,7 @@ public class AuthenticationTests
         };
         
         return new ConfigurationBuilder()
-            .AddInMemoryCollection(myConfiguration!)
+            .AddInMemoryCollection(authenticationDetails!)
             .Build();
     }
 }
