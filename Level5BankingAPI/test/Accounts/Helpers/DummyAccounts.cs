@@ -1,6 +1,6 @@
 ﻿using Domain.Models;
 
-namespace test.Repositories;
+namespace test.Accounts.Helpers;
 
 public static class DummyAccounts
 {
@@ -11,14 +11,14 @@ public static class DummyAccounts
         Id = "0"
     };
         
-    public static Account Bar = new()
+    public static readonly Account Bar = new()
     {
         HolderName = "Bar B Babert",
         Balance = 1,
         Id = "1"
     };
 
-    public static Account Baz = new()
+    public static readonly Account Baz = new()
     {
         HolderName = "Baz B Bazert",
         Balance = 2,
