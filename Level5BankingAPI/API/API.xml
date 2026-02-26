@@ -4,7 +4,7 @@
         <name>API</name>
     </assembly>
     <members>
-        <member name="M:Presentation.Controllers.AccountsController.GetAccounts(System.String,System.String,System.Boolean,System.Int32,System.Int32)">
+        <member name="M:API.Controllers.AccountsController.GetAccounts(System.String,System.String,System.Boolean,System.Int32,System.Int32)">
             <summary>
             Retrieves a list of accounts based off user specifications
             </summary>
@@ -16,21 +16,21 @@
             <returns>A list of accounts based off the entered parameters. If no parameters are entered,
             all entries are returned</returns>
         </member>
-        <member name="M:Presentation.Controllers.AccountsController.PostAccount(Application.DTOs.Requests.CreationRequest)">
+        <member name="M:API.Controllers.AccountsController.PostAccount(Application.DTOs.Requests.CreationRequest)">
             <summary>
             Creates a new Account with the provided name given the name follows the required naming convention
             </summary>
             <param name="request">A record which contains a string name for the new account</param>
             <returns>The information of the generated account</returns>
         </member>
-        <member name="M:Presentation.Controllers.AccountsController.GetAccount(System.String)">
+        <member name="M:API.Controllers.AccountsController.GetAccount(System.String)">
             <summary>
             Retrieves an account based off a given ID
             </summary>
             <param name="id">The unique identification for the requested account</param>
             <returns>The account information corresponding to the ID</returns>
         </member>
-        <member name="M:Presentation.Controllers.AccountsController.PostDeposit(System.String,Application.DTOs.Requests.ChangeBalanceRequest)">
+        <member name="M:API.Controllers.AccountsController.PostDeposit(System.String,Application.DTOs.Requests.ChangeBalanceRequest)">
             <summary>
             Adds an entered money amount to a requested account
             </summary>
@@ -38,7 +38,7 @@
             <param name="request">A record which contains a decimal amount that will be deposited</param>
             <returns>The updated account details</returns>
         </member>
-        <member name="M:Presentation.Controllers.AccountsController.PostWithdraw(System.String,Application.DTOs.Requests.ChangeBalanceRequest)">
+        <member name="M:API.Controllers.AccountsController.PostWithdraw(System.String,Application.DTOs.Requests.ChangeBalanceRequest)">
             <summary>
             Subtracts an entered money amount to a requested account
             </summary>
@@ -46,7 +46,7 @@
             <param name="request">A record which contains a decimal amount that will be withdrawn</param>
             <returns>The updated account details</returns>
         </member>
-        <member name="M:Presentation.Controllers.AccountsController.PostTransfer(Application.DTOs.Requests.TransferRequest)">
+        <member name="M:API.Controllers.AccountsController.PostTransfer(Application.DTOs.Requests.TransferRequest)">
             <summary>
             Takes money from one account and moves it to another
             </summary>
@@ -54,7 +54,7 @@
             account, along with the decimal amount that will be transferred</param>
             <returns>The sender's updated account details</returns>
         </member>
-        <member name="M:Presentation.Controllers.AccountsController.GetConversion(System.String,Application.DTOs.Requests.ConversionRequest)">
+        <member name="M:API.Controllers.AccountsController.GetConversion(System.String,Application.DTOs.Requests.ConversionRequest)">
             <summary>
             Returns the balance of a provided account converted into the requested currencies
             </summary>
@@ -63,7 +63,7 @@
             <returns>A record containing a dictionary where the keys are the currency type and the values
             are the balance converted to the respective value</returns>
         </member>
-        <member name="M:Presentation.Controllers.AuthenticationController.GetAuthenticationToken">
+        <member name="M:API.Controllers.AuthenticationController.GetAuthenticationToken">
             <summary>
             Creates a JWT
             </summary>
