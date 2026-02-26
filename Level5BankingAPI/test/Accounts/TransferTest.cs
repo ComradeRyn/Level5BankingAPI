@@ -37,7 +37,7 @@ public class TransferTest
     }
 
     [Fact]
-    public async Task Transfer_FromNonexistentAccount_ReturnFailure()
+    public async Task Transfer_ToNonexistentAccount_ReturnFailure()
     {
         // Arrange
         const decimal transferAmount = 1;
@@ -60,7 +60,7 @@ public class TransferTest
     }
 
     [Fact]
-    public async Task Transfer_ToNonexistentAccount_ReturnFailure()
+    public async Task Transfer_FromNonexistentAccount_ReturnFailure()
     {
         // Arrange
         const decimal transferAmount = 1;
