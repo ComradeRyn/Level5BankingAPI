@@ -30,7 +30,7 @@ public class GetAccountsTests
     };
     
     [Fact]
-    public async Task Search_NoArgs_ReturnAccountList()
+    public async Task Search_NoArgs_ReturnAllAccounts()
     {
         // Arrange
         var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();

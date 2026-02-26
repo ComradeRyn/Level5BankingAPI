@@ -15,7 +15,7 @@ public static class AccountsTestHelpers
         return (service, repository);
     }
     
-    public static (AccountsService, Account) CreateServiceWithPopulatedRepository(
+    public static (AccountsService, Account) CreateServiceWithAccountInRepository(
         decimal balance = 0)
     {
         var (service, repository) = CreateServiceWithEmptyRepository();

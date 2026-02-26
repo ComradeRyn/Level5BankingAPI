@@ -26,7 +26,7 @@ public class GetAccountTests
     public async Task Get_ExistentAccount_ReturnFoundAccount()
     {
         // Arrange
-        var (service, account) = AccountsTestHelpers.CreateServiceWithPopulatedRepository();
+        var (service, account) = AccountsTestHelpers.CreateServiceWithAccountInRepository();
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = account.AsDto();
