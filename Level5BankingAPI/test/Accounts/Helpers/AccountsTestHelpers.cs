@@ -12,6 +12,30 @@ public static class AccountsTestHelpers
 
         return service;
     }
+
+    public static (AccountsService, Account, Account) CreateServiceWithTwoAccounts(
+        decimal firstBalance = 0,
+        decimal secondBalance = 0)
+    {
+        var (service, repository) = CreateServiceAndRepository();
+        var firstAccount = new Account
+        {
+            HolderName = "Quux Q Quxerson",
+            Balance = firstBalance,
+            Id = "0",
+        };
+        var secondAccount = new Account
+        {
+            HolderName = "Corge C Corgeson",
+            Balance = secondBalance,
+            Id = "1"
+        };
+        
+        repository.AddExistingAccount(firstAccount);
+        repository.AddExistingAccount(secondAccount);
+
+        return (service, firstAccount, secondAccount);
+    }
     
     public static (AccountsService, Account) CreateServiceWithSingleAccount(
         decimal balance = 0)
