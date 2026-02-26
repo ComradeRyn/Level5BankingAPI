@@ -78,11 +78,9 @@ public class FakeAccountRepository : IAccountsRepository
 
     public Task<Account> UpdateAccount(Account account, decimal amount)
     {
-        // TODO: look and see if this needs to be done
-        var accountFromDictionary = _accounts[account.Id];
-        accountFromDictionary.Balance += amount;
+        account.Balance += amount;
 
-        return Task.FromResult(accountFromDictionary);
+        return Task.FromResult(account);
     }
 
     public void AddExistingAccount(Account account)
