@@ -1,8 +1,5 @@
 ﻿using System.Net;
-using Application.DTOs.Requests;
 using Application.Services;
-using Domain.Models;
-using test.Repositories;
 
 namespace test.Accounts;
 
