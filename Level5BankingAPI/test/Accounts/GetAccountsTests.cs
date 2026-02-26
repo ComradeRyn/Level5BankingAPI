@@ -253,6 +253,7 @@ public class GetAccountsTests
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         const int expectedPageNumber = 1;
+
         
         // Act
         var (actual,paginationMetadata) = await service.GetAccounts(pageNumberZeroRequest);
@@ -276,12 +277,14 @@ public class GetAccountsTests
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         const int expectedPageNumber = 2;
+        var expectedContent = new List<Application.DTOs.Account> { DummyAccounts.Bar.AsDto() };
         
         // Act
         var (actual,paginationMetadata) = await service.GetAccounts(validPageNumberRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(expectedContent, actual.Content);
         Assert.Equal(expectedPageNumber, paginationMetadata!.CurrentPage);
     }
 
@@ -318,16 +321,22 @@ public class GetAccountsTests
             null,
             false,
             1,
-            5);
+            2);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        const int expectedPageSize = 5;
+        const int expectedPageSize = 2;
+        var expectedContent = new List<Application.DTOs.Account>()
+        {
+            DummyAccounts.Foo.AsDto(),
+            DummyAccounts.Bar.AsDto(),
+        };
         
         // Act
         var (actual,paginationMetadata) = await service.GetAccounts(validPageSizeRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(expectedContent, actual.Content);
         Assert.Equal(expectedPageSize, paginationMetadata!.PageSize);
     }
 }
