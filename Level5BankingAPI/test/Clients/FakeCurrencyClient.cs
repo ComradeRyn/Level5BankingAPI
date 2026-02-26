@@ -18,7 +18,7 @@ public class FakeCurrencyClient : ICurrencyClient
         var conversionRatesToReturn = new Dictionary<string, decimal>();
         foreach (var currencyType in currencyTypes.Split(','))
         {
-            if (!_conversionRates.ContainsKey(currencyTypes))
+            if (!_conversionRates.TryGetValue(currencyType, out var rate))
             {
                 var response = new CurrencyClientResponse(HttpStatusCode.BadRequest, 
                     "Could not find requested conversion rate", 
@@ -27,7 +27,7 @@ public class FakeCurrencyClient : ICurrencyClient
                 return Task.FromResult(response);
             }
             
-            conversionRatesToReturn.Add(currencyType, _conversionRates[currencyType]);
+            conversionRatesToReturn.Add(currencyType, rate);
         }
 
         return Task.FromResult(new CurrencyClientResponse(conversionRatesToReturn));

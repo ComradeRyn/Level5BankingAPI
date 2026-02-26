@@ -1,5 +1,7 @@
-﻿using Application.Services;
+﻿using Application.Interfaces;
+using Application.Services;
 using Domain.Models;
+using Test.Clients;
 using Test.Repositories;
 
 namespace Test.Accounts.Helpers;
@@ -61,12 +63,46 @@ public static class AccountsTestHelpers
 
         return service;
     }
+
+    public static (AccountsService, Account) CreateServiceWithConversionDictionary()
+    {
+        var conversionDictionary = new Dictionary<string, decimal>()
+        {
+            { "fakeCurrency", 2 },
+        };
+        
+        var currencyClient = new FakeCurrencyClient(conversionDictionary);
+        var (service, repository) = CreateServiceAndRepository(currencyClient);
+        var account = new Account
+        {
+            HolderName = "Qux Q Quxson",
+            Balance = 1,
+            Id = "0"
+        };
+        repository.AddExistingAccount(account);
+
+        return (service, account);
+    }
+
+    public static AccountsService CreateServiceWithConversionDictionaryAndNoAccount()
+    {
+        var conversionDictionary = new Dictionary<string, decimal>()
+        {
+            { "fakeCurrency", 2 },
+        };
+        
+        var currencyClient = new FakeCurrencyClient(conversionDictionary);
+        var (service, _) = CreateServiceAndRepository(currencyClient);
+
+        return service;
+    }
     
-    private static (AccountsService, FakeAccountRepository) CreateServiceAndRepository()
+    private static (AccountsService, FakeAccountRepository) CreateServiceAndRepository(
+        ICurrencyClient? currencyClient = null)
     {
         var accountsDictionary = new Dictionary<string, Account>();
         var repository = new FakeAccountRepository(accountsDictionary);
-        var service = new AccountsService(repository, null!);
+        var service = new AccountsService(repository, currencyClient!);
 
         return (service, repository);
     }
