@@ -13,7 +13,7 @@ public class DepositTests
         const decimal positiveAmount = 1;
         var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
-        var positiveAmountAccountRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
+        var positiveAmountDepositRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = new Application.DTOs.Account(
@@ -22,7 +22,7 @@ public class DepositTests
             account.Balance + positiveAmount);
         
         // Act
-        var actual = await service.Deposit(positiveAmountAccountRequest);
+        var actual = await service.Deposit(positiveAmountDepositRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -53,7 +53,7 @@ public class DepositTests
     {
         // Arrange
         const decimal positiveAmount = 1;
-        const string nonExistentAccountId = "0";
+        const string nonExistentAccountId = "invalid";
         var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var depositToNonExistentAccountRequest = 
