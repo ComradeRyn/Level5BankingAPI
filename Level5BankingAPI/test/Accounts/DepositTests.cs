@@ -13,7 +13,7 @@ public class DepositTests
         const decimal positiveAmount = 1;
         var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
         var (service, account) = AccountsTestHelpers.CreateServiceWithSingleAccount();
-        var request = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
+        var positiveAmountAccountRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = new Application.DTOs.Account(
@@ -22,7 +22,7 @@ public class DepositTests
             account.Balance + positiveAmount);
         
         // Act
-        var actual = await service.Deposit(request);
+        var actual = await service.Deposit(positiveAmountAccountRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -36,12 +36,12 @@ public class DepositTests
         const decimal zeroOrLessAmount = -1;
         var changeBalanceRequest = new ChangeBalanceRequest(zeroOrLessAmount);
         var (service, account) = AccountsTestHelpers.CreateServiceWithSingleAccount();
-        var request = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
+        var zeroOrLessAccountRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
         
         // Act
-        var actual = await service.Deposit(request);
+        var actual = await service.Deposit(zeroOrLessAccountRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -56,12 +56,13 @@ public class DepositTests
         const string nonExistentAccountId = "0";
         var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
-        var request = new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, changeBalanceRequest);
+        var depositToNonExistentAccountRequest = 
+            new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, changeBalanceRequest);
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
         
         // Act
-        var actual = await service.Deposit(request);
+        var actual = await service.Deposit(depositToNonExistentAccountRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);

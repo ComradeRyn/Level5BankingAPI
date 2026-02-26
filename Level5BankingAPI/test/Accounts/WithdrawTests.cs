@@ -58,13 +58,13 @@ public class WithdrawTests
         const string nonExistentAccountId = "invalid";
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
-        var validRequest = new AccountRequest<ChangeBalanceRequest>
-            (nonExistentAccountId, changeBalanceRequest);
+        var positiveAmountRequest = 
+            new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, changeBalanceRequest);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
         
         // Act
-        var actual = await service.Withdraw(validRequest);
+        var actual = await service.Withdraw(positiveAmountRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -79,13 +79,13 @@ public class WithdrawTests
         const decimal withdrawAmount = accountBalance + 1;
         var (service, account) = AccountsTestHelpers.CreateServiceWithSingleAccount(accountBalance);
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
-        var validRequest = new AccountRequest<ChangeBalanceRequest>
+        var withdrawGreaterThanBalanceRequest = new AccountRequest<ChangeBalanceRequest>
             (account.Id, changeBalanceRequest);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
         
         // Act
-        var actual = await service.Withdraw(validRequest);
+        var actual = await service.Withdraw(withdrawGreaterThanBalanceRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
