@@ -13,7 +13,10 @@ public class TransferTest
         const decimal accountOneBalance = 1;
         const decimal transferAmount = 1;
 
-        var (service, sender, receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountOneBalance);
+        var (service,
+            sender,
+            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountOneBalance);
+        
         var transferPositiveInboundsAmountRequest = new TransferRequest(
             transferAmount, 
             sender.Id, 
@@ -87,7 +90,10 @@ public class TransferTest
         const decimal transferAmount = 0;
         const decimal accountBalance = 1;
 
-        var (service, sender, receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
+        var (service,
+            sender,
+            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
+        
         var transferZeroOrLessRequest = new TransferRequest(
             transferAmount, 
             sender.Id, 
@@ -110,7 +116,10 @@ public class TransferTest
         const decimal accountBalance = 1;
         const decimal transferAmount = accountBalance + 1;
 
-        var (service, sender, receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
+        var (service,
+            sender,
+            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
+        
         var transferLargerThanBalanceRequest = new TransferRequest(
             transferAmount, 
             sender.Id, 
