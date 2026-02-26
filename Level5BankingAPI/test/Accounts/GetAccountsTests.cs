@@ -339,4 +339,32 @@ public class GetAccountsTests
         Assert.Equal(expectedContent, actual.Content);
         Assert.Equal(expectedPageSize, paginationMetadata!.PageSize);
     }
+
+    [Fact]
+    public async Task Pagination_isDescendingList_ReturnsCorrespondingContent()
+    {
+        // Arrange
+        var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
+        var validPageSizeRequest = new GetAccountsRequest(
+            "Ba",
+            "name",
+            true,
+            1,
+            1);
+
+        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        const int expectedPageSize = 1;
+        var expectedContent = new List<Application.DTOs.Account>()
+        {
+            DummyAccounts.Baz.AsDto(),
+        };
+        
+        // Act
+        var (actual,paginationMetadata) = await service.GetAccounts(validPageSizeRequest);
+        
+        // Assert
+        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(expectedContent, actual.Content);
+        Assert.Equal(expectedPageSize, paginationMetadata!.PageSize);
+    }
 }
