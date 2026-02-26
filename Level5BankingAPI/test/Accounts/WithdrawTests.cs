@@ -11,8 +11,9 @@ public class WithdrawTests
     {
         // Arrange
         const decimal accountBalance = 1;
+        const decimal withdrawAmount = 1;
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
-        var changeBalanceRequest = new ChangeBalanceRequest(accountBalance);
+        var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var positiveAmountWithinBoundsRequest = new AccountRequest<ChangeBalanceRequest>
             (account.Id, changeBalanceRequest);
 
@@ -20,7 +21,7 @@ public class WithdrawTests
         var expectedContent = new Application.DTOs.Account(
             account.Id, 
             account.HolderName, 
-            0);
+            accountBalance - withdrawAmount);
         
         // Act
         var actual = await service.Withdraw(positiveAmountWithinBoundsRequest);
@@ -35,7 +36,7 @@ public class WithdrawTests
     {
         // Arrange
         const decimal withdrawAmount = -1;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount(withdrawAmount);
+        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var amountZeroOrLessRequest = new AccountRequest<ChangeBalanceRequest>
             (account.Id, changeBalanceRequest);
