@@ -2,45 +2,25 @@
 using Application.DTOs.Requests;
 using Application.Services;
 using Domain.Models;
+using test.Accounts.Helpers;
 using test.Repositories;
 
 namespace test.Accounts;
 
 public class GetAccountsTests
 {
-    private readonly Account _fooAccount = new()
-    {
-        HolderName = "Foo F Foobert",
-        Balance = 0,
-        Id = "0"
-    };
-        
-    private readonly Account _barAccount = new()
-    {
-        HolderName = "Bar B Babert",
-        Balance = 1,
-        Id = "1"
-    };
-
-    private readonly Account _bazAccount = new()
-    {
-        HolderName = "Baz B Bazert",
-        Balance = 2,
-        Id = "2"
-    };
-    
     [Fact]
     public async Task Search_NoArgs_ReturnAllAccounts()
     {
         // Arrange
         var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        SeedRepository(repository);
         var noArgsRequest = new GetAccountsRequest(
             null, 
             null, 
             false, 
             1, 
             10);
-        SeedRepository(repository);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = new List<Application.DTOs.Account>()
@@ -63,13 +43,13 @@ public class GetAccountsTests
     {
         // Arrange
         var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        SeedRepository(repository);
         var onlyNamesContainingFooRequest = new GetAccountsRequest(
             "Foo", 
             null, 
             false, 
             1, 
             10);
-        SeedRepository(repository);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = new List<Application.DTOs.Account>()
@@ -90,13 +70,13 @@ public class GetAccountsTests
     {
         // Arrange
         var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        SeedRepository(repository);
         var noMatchingNameRequest = new GetAccountsRequest(
             "R", 
             null, 
             false, 
             1, 
             10);
-        SeedRepository(repository);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         
@@ -113,13 +93,13 @@ public class GetAccountsTests
     {
         // Arrange
         var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        SeedRepository(repository);
         var sortByNameRequest = new GetAccountsRequest(
             null, 
             "name", 
             false, 
             1, 
             10);
-        SeedRepository(repository);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = new List<Application.DTOs.Account>()
