@@ -2,7 +2,6 @@
 using Application.DTOs.Requests;
 using Application.Services;
 using test.Accounts.Helpers;
-using test.Repositories;
 
 namespace test.Accounts;
 
