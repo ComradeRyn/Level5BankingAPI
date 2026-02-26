@@ -33,7 +33,7 @@ public class GetAccountsTests
     public async Task Search_NoArgs_ReturnAccountList()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var noArgsRequest = new GetAccountsRequest(
             null, 
             null, 
@@ -62,7 +62,7 @@ public class GetAccountsTests
     public async Task Search_Name_ReturnAccountsWithName()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var onlyNamesContainingFooRequest = new GetAccountsRequest(
             "Foo", 
             null, 
@@ -89,7 +89,7 @@ public class GetAccountsTests
     public async Task Search_NameNoMatch_ReturnEmptyList()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var noMatchingNameRequest = new GetAccountsRequest(
             "R", 
             null, 
@@ -112,7 +112,7 @@ public class GetAccountsTests
     public async Task Sort_ByName_ReturnAccountListSortedByName()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var sortByNameRequest = new GetAccountsRequest(
             null, 
             "name", 
@@ -141,7 +141,7 @@ public class GetAccountsTests
     public async Task Sort_ByNameDescending_ReturnReversedAccountListByName()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var sortByNameDescendingRequest = new GetAccountsRequest(
             null, 
             "name", 
@@ -170,7 +170,7 @@ public class GetAccountsTests
     public async Task Sort_ByBalance_ReturnAccountListSortedByBalance()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var sortByBalanceRequest = new GetAccountsRequest(
             null, 
             "balance", 
@@ -199,7 +199,7 @@ public class GetAccountsTests
     public async Task Sort_ByBalanceDescending_ReturnReversedAccountListByBalance()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var sortByBalanceDescendingRequest = new GetAccountsRequest(
             null, 
             "balance", 
@@ -228,7 +228,7 @@ public class GetAccountsTests
     public async Task Sort_ByInvalidKeyword_ReturnFailure()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var sortByInvalidKeywordRequest = new GetAccountsRequest(
             null, 
             "invalid", 
@@ -251,7 +251,7 @@ public class GetAccountsTests
     public async Task Search_EmptyDatabase_ReturnEmptyList()
     {
         // Arrange
-        var (service, _) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, _) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var searchEmptyDatabaseRequest = new GetAccountsRequest(
             null, 
             null, 
@@ -273,7 +273,7 @@ public class GetAccountsTests
     public async Task Pagination_PageNumberZeroOrLess_ReturnPageNumberOneResults()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var pageNumberZeroRequest = new GetAccountsRequest(
             null, 
             null, 
@@ -297,7 +297,7 @@ public class GetAccountsTests
     public async Task Pagination_ValidPageNumber_ReturnRequestedPage()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var validPageNumberRequest = new GetAccountsRequest(
             null, 
             null, 
@@ -321,7 +321,7 @@ public class GetAccountsTests
     public async Task Pagination_PageSizeZeroOrLess_ReturnPageSizeOneResults()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var pageSizeZeroRequest = new GetAccountsRequest(
             null,
             null,
@@ -345,7 +345,7 @@ public class GetAccountsTests
     public async Task Pagination_ValidPageSize_ReturnRequestedPageSize()
     {
         // Arrange
-        var (service, repository) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
+        var (service, repository) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var validPageSizeRequest = new GetAccountsRequest(
             null,
             null,

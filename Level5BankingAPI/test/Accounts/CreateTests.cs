@@ -9,15 +9,15 @@ public class CreateTests
     public async Task Create_AccountWithValidName_ReturnCreatedAccount()
     {
         // Arrange
-        const string validName = "Ryan L Yuncza";
-        var (service, _) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
-        var request = new CreationRequest(validName);
+        const string validName = "Foo F Foobert";
+        var (service, _) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var invalidNameRequest = new CreationRequest(validName);
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = new Application.DTOs.Account("0",validName,0);
 
         // Act
-        var actual = await service.CreateAccount(request);
+        var actual = await service.CreateAccount(invalidNameRequest);
 
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
@@ -29,13 +29,13 @@ public class CreateTests
     {
         // Arrange
         const string invalidName = "invalid";
-        var (service, _) = AccountsTestHelpers.CreateServiceAndEmptyRepository();
-        var request = new CreationRequest(invalidName);
+        var (service, _) = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var invalidNameRequest = new CreationRequest(invalidName);
 
         const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
 
         // Act
-        var actual = await service.CreateAccount(request);
+        var actual = await service.CreateAccount(invalidNameRequest);
         
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);

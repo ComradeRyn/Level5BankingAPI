@@ -6,7 +6,7 @@ namespace test.Accounts;
 
 public static class AccountsTestHelpers
 {
-    public static (AccountsService, FakeAccountRepository) CreateServiceAndEmptyRepository()
+    public static (AccountsService, FakeAccountRepository) CreateServiceWithEmptyRepository()
     {
         var accountsDictionary = new Dictionary<string, Account>();
         var repository = new FakeAccountRepository(accountsDictionary);
@@ -15,10 +15,10 @@ public static class AccountsTestHelpers
         return (service, repository);
     }
     
-    public static (AccountsService, Account) CreateServiceAndPopulatedRepository(
+    public static (AccountsService, Account) CreateServiceWithPopulatedRepository(
         decimal balance = 0)
     {
-        var (service, repository) = CreateServiceAndEmptyRepository();
+        var (service, repository) = CreateServiceWithEmptyRepository();
         var account = new Account
         {
             HolderName = "Foo F Foobert",
