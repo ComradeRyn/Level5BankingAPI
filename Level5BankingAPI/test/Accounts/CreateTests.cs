@@ -12,13 +12,13 @@ public class CreateTests
         // Arrange
         const string validName = "Foo F Foobert";
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
-        var invalidNameRequest = new CreationRequest(validName);
+        var validNameRequest = new CreationRequest(validName);
         
         const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         var expectedContent = new Application.DTOs.Account("0",validName,0);
 
         // Act
-        var actual = await service.CreateAccount(invalidNameRequest);
+        var actual = await service.CreateAccount(validNameRequest);
 
         // Assert
         Assert.Equal(expectedStatusCode, actual.StatusCode);
