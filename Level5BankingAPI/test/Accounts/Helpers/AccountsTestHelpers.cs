@@ -8,9 +8,11 @@ namespace Test.Accounts.Helpers;
 
 public static class AccountsTestHelpers
 {
-    public static AccountsService CreateServiceWithEmptyRepository()
+    public static AccountsService CreateServiceWithEmptyRepository(ICurrencyClient client = null!)
     {
-        var (service, _) = CreateServiceAndRepository();
+        var accountsDictionary = new Dictionary<string, Account>();
+        var repository = new FakeAccountRepository(accountsDictionary);
+        var service = new AccountsService(repository, client);
 
         return service;
     }
@@ -91,7 +93,7 @@ public static class AccountsTestHelpers
         };
         
         var currencyClient = new FakeCurrencyClient(conversionDictionary);
-        var (service, _) = CreateServiceAndRepository(currencyClient);
+        var service = CreateServiceWithEmptyRepository(currencyClient);
 
         return service;
     }
