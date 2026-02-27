@@ -11,7 +11,7 @@ public class ConvertTests
     public async Task Convert_toValidCurrency_ReturnConvertedCurrencies()
     {
         // Arrange
-        const string validConversionCurrency = "fakeCurrency";
+        const string validConversionCurrency = "fakeCurrency1,fakeCurrency2";
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
         
         // Act
@@ -25,7 +25,8 @@ public class ConvertTests
         Assert.Equivalent(
             new ConversionResponse(new Dictionary<string, decimal>
             {
-                { "fakeCurrency", 2 }
+                { "fakeCurrency1", 2 },
+                { "fakeCurrency2", 0.5m},
             }),
             actual.Content);
     }

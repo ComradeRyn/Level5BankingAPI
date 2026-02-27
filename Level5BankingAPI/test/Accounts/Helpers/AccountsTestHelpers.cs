@@ -69,7 +69,8 @@ public static class AccountsTestHelpers
     {
         var conversionDictionary = new Dictionary<string, decimal>()
         {
-            { "fakeCurrency", 2 },
+            { "fakeCurrency1", 2 },
+            { "fakeCurrency2", .5m }
         };
         
         var currencyClient = new FakeCurrencyClient(conversionDictionary);
