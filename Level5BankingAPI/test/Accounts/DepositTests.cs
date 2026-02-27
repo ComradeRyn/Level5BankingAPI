@@ -11,9 +11,10 @@ public class DepositTests
     {
         // Arrange
         const decimal positiveAmount = 1;
-        var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
+        
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
-        var positiveAmountDepositRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
+        var positiveAmountDepositRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, 
+            new ChangeBalanceRequest(positiveAmount));
         
         var expectedContent = new Application.DTOs.Account(
             account.Id, 
@@ -33,9 +34,10 @@ public class DepositTests
     {
         // Arrange
         const decimal zeroOrLessAmount = -1;
-        var changeBalanceRequest = new ChangeBalanceRequest(zeroOrLessAmount);
+        
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
-        var zeroOrLessAccountRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
+        var zeroOrLessAccountRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, 
+            new ChangeBalanceRequest(zeroOrLessAmount));
         
         // Act
         var actual = await service.Deposit(zeroOrLessAccountRequest);
@@ -51,10 +53,10 @@ public class DepositTests
         // Arrange
         const decimal positiveAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
+        
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var depositToNonExistentAccountRequest = 
-            new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, changeBalanceRequest);
+            new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, new ChangeBalanceRequest(positiveAmount));
         
         // Act
         var actual = await service.Deposit(depositToNonExistentAccountRequest);
