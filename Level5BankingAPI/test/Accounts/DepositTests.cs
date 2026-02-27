@@ -11,7 +11,6 @@ public class DepositTests
     {
         // Arrange
         const decimal positiveAmount = 1;
-        
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
         var positiveAmountDepositRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, 
             new ChangeBalanceRequest(positiveAmount));
@@ -34,7 +33,6 @@ public class DepositTests
     {
         // Arrange
         const decimal zeroOrLessAmount = -1;
-        
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
         var zeroOrLessAccountRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, 
             new ChangeBalanceRequest(zeroOrLessAmount));
@@ -53,7 +51,6 @@ public class DepositTests
         // Arrange
         const decimal positiveAmount = 1;
         const string nonExistentAccountId = "invalid";
-        
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var depositToNonExistentAccountRequest = 
             new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, new ChangeBalanceRequest(positiveAmount));

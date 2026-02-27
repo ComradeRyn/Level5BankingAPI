@@ -12,13 +12,12 @@ public class ConvertTests
     {
         // Arrange
         const string validConversionCurrency = "fakeCurrency";
-
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
         var toValidCurrencyRequest = new AccountRequest<ConversionRequest>(
             account.Id, 
             new ConversionRequest(validConversionCurrency));
         
-        var expectedContent = new ConversionResponse(new Dictionary<string, decimal>()
+        var expectedContent = new ConversionResponse(new Dictionary<string, decimal>
         {
             { "fakeCurrency", 2 }
         });
@@ -35,7 +34,6 @@ public class ConvertTests
     {
         // Arrange
         const string invalidConversionCurrency = "invalidCurrency";
-
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
         var toInvalidCurrencyRequest = new AccountRequest<ConversionRequest>(account.Id, 
             new ConversionRequest(invalidConversionCurrency));
@@ -54,7 +52,6 @@ public class ConvertTests
         // Arrange
         const string validConversionRequest = "fakeCurrency";
         const string nonexistentId = "invalid";
-
         var service = AccountsTestHelpers.CreateServiceWithConversionDictionaryAndEmptyRepository();
         var convertNonexistentAccountRequest = new AccountRequest<ConversionRequest>(nonexistentId, 
             new ConversionRequest(validConversionRequest));

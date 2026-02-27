@@ -39,7 +39,6 @@ public class GetAccountsTests
     {
         // Arrange
         const string nameWithMatchingResult = "Foo";
-        
         var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
         var onlyNamesContainingFooRequest = new GetAccountsRequest(
             nameWithMatchingResult, 
@@ -66,7 +65,6 @@ public class GetAccountsTests
     {
         // Arrange
         const string noMatchingName = "R";
-        
         var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
         var noMatchingNameRequest = new GetAccountsRequest(
             noMatchingName, 

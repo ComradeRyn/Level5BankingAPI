@@ -12,7 +12,6 @@ public class TransferTest
         // Arrange
         const decimal accountOneBalance = 1;
         const decimal transferAmount = 1;
-
         var (service,
             sender,
             receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountOneBalance);
@@ -41,7 +40,6 @@ public class TransferTest
         // Arrange
         const decimal transferAmount = 1;
         const string nonExistentAccountId = "invalid";
-
         var (service, sender) = AccountsTestHelpers.CreateServiceWithOneAccount();
         var transferFromNonexistentAccountRequest = new TransferRequest(
             transferAmount,
@@ -63,7 +61,6 @@ public class TransferTest
         const decimal transferAmount = 1;
         const decimal accountBalance = 1;
         const string nonExistentAccountId = "invalid";
-
         var (service, receiver) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
         var transferToNonexistentAccountRequest = new TransferRequest(
             transferAmount, 
@@ -84,7 +81,6 @@ public class TransferTest
         // Arrange
         const decimal transferAmount = 0;
         const decimal accountBalance = 1;
-
         var (service,
             sender,
             receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
@@ -108,7 +104,6 @@ public class TransferTest
         // Arrange
         const decimal accountBalance = 1;
         const decimal transferAmount = accountBalance + 1;
-
         var (service,
             sender,
             receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
