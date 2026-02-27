@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Application.DTOs.Responses;
 using Test.Accounts.Helpers;
 
 namespace Test.Accounts;
@@ -16,16 +17,16 @@ public class ConvertTests
         var conversionRequest = new ConversionRequest(validConversionCurrency);
         var toValidCurrencyRequest = new AccountRequest<ConversionRequest>(account.Id, conversionRequest);
         
-        var expectedDictionary = new Dictionary<string, decimal>()
+        var expectedContent = new ConversionResponse(new Dictionary<string, decimal>()
         {
             { "fakeCurrency", 2}
-        };
+        });
         
         // Act
         var actual = await service.Convert(toValidCurrencyRequest);
         
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
-        Assert.True(TestDictionaryEquivalence(expectedDictionary, actual.Content!.ConvertedCurrencies));
+        Assert.Equivalent(expectedContent, actual.Content);
     }
     
     [Fact]
@@ -63,15 +64,5 @@ public class ConvertTests
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
         Assert.Null(actual.Content);
-    }
-
-    private static bool TestDictionaryEquivalence(
-        Dictionary<string, decimal> dictionaryOne,
-        Dictionary<string, decimal> dictionaryTwo)
-    {
-        var areKeysEqual = dictionaryOne.Keys.ToList()[0] == dictionaryTwo.Keys.ToList()[0];
-        var areValuesEqual = dictionaryOne.Values.ToList()[0] == dictionaryTwo.Values.ToList()[0];
-        
-        return areValuesEqual && areKeysEqual;
     }
 }
