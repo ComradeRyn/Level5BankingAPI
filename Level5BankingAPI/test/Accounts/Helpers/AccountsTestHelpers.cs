@@ -8,15 +8,29 @@ namespace Test.Accounts.Helpers;
 
 public static class AccountsTestHelpers
 {
-    public static AccountsService CreateServiceWithEmptyRepository(ICurrencyClient client = null!)
+    public static AccountsService CreateServiceWithEmptyRepository(ICurrencyClient? client = null)
     {
         var accountsDictionary = new Dictionary<string, Account>();
         var repository = new FakeAccountRepository(accountsDictionary);
-        var service = new AccountsService(repository, client);
+        var service = new AccountsService(repository, client!);
 
         return service;
     }
+    
+    public static (AccountsService, Account) CreateServiceWithOneAccount(decimal balance = 0)
+    {
+        var (service, repository) = CreateServiceAndRepository();
+        var account = new Account
+        {
+            HolderName = "Qux Q Quxson",
+            Balance = balance,
+            Id = "0"
+        };
+        repository.AddExistingAccount(account);
 
+        return (service, account);
+    }
+    
     public static (AccountsService, Account, Account) CreateServiceWithTwoAccounts(
         decimal firstBalance = 0,
         decimal secondBalance = 0)
@@ -39,20 +53,6 @@ public static class AccountsTestHelpers
         repository.AddExistingAccount(secondAccount);
 
         return (service, firstAccount, secondAccount);
-    }
-    
-    public static (AccountsService, Account) CreateServiceWithOneAccount(decimal balance = 0)
-    {
-        var (service, repository) = CreateServiceAndRepository();
-        var account = new Account
-        {
-            HolderName = "Qux Q Quxson",
-            Balance = balance,
-            Id = "0"
-        };
-        repository.AddExistingAccount(account);
-
-        return (service, account);
     }
 
     public static AccountsService CreateServiceWithThreeAccounts()
