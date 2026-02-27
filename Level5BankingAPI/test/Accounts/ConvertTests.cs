@@ -14,12 +14,13 @@ public class ConvertTests
         const string validConversionCurrency = "fakeCurrency";
 
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
-        var conversionRequest = new ConversionRequest(validConversionCurrency);
-        var toValidCurrencyRequest = new AccountRequest<ConversionRequest>(account.Id, conversionRequest);
+        var toValidCurrencyRequest = new AccountRequest<ConversionRequest>(
+            account.Id, 
+            new ConversionRequest(validConversionCurrency));
         
         var expectedContent = new ConversionResponse(new Dictionary<string, decimal>()
         {
-            { "fakeCurrency", 2}
+            { "fakeCurrency", 2 }
         });
         
         // Act
@@ -36,8 +37,8 @@ public class ConvertTests
         const string invalidConversionCurrency = "invalidCurrency";
 
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
-        var conversionRequest = new ConversionRequest(invalidConversionCurrency);
-        var toInvalidCurrencyRequest = new AccountRequest<ConversionRequest>(account.Id, conversionRequest);
+        var toInvalidCurrencyRequest = new AccountRequest<ConversionRequest>(account.Id, 
+            new ConversionRequest(invalidConversionCurrency));
         
         // Act
         var actual = await service.Convert(toInvalidCurrencyRequest);
@@ -55,8 +56,8 @@ public class ConvertTests
         const string nonexistentId = "invalid";
 
         var service = AccountsTestHelpers.CreateServiceWithConversionDictionaryAndEmptyRepository();
-        var conversionRequest = new ConversionRequest(validConversionRequest);
-        var convertNonexistentAccountRequest = new AccountRequest<ConversionRequest>(nonexistentId, conversionRequest);
+        var convertNonexistentAccountRequest = new AccountRequest<ConversionRequest>(nonexistentId, 
+            new ConversionRequest(validConversionRequest));
         
         // Act
         var actual = await service.Convert(convertNonexistentAccountRequest);
