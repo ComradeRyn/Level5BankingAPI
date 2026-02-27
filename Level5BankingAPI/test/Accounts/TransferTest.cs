@@ -15,23 +15,22 @@ public class TransferTest
         var (service,
             sender,
             receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountOneBalance);
-        
-        var transferPositiveInboundsAmountRequest = new TransferRequest(
-            transferAmount, 
-            sender.Id, 
-            receiver.Id);
-        
-        var expectedContent = new Application.DTOs.Account(
-            sender.Id,
-            sender.HolderName,
-            0);
 
         // Act
-        var actual = await service.Transfer(transferPositiveInboundsAmountRequest);
+        var actual = await service.Transfer(
+            new TransferRequest(
+                transferAmount, 
+                sender.Id, 
+                receiver.Id));
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
-        Assert.Equal(expectedContent, actual.Content);
+        Assert.Equal(
+            new Application.DTOs.Account(
+                sender.Id,
+                sender.HolderName,
+                0), 
+            actual.Content);
     }
 
     [Fact]
@@ -41,13 +40,13 @@ public class TransferTest
         const decimal transferAmount = 1;
         const string nonExistentAccountId = "invalid";
         var (service, sender) = AccountsTestHelpers.CreateServiceWithOneAccount();
-        var transferFromNonexistentAccountRequest = new TransferRequest(
-            transferAmount,
-            sender.Id,
-            nonExistentAccountId);
 
         // Act
-        var actual = await service.Transfer(transferFromNonexistentAccountRequest);
+        var actual = await service.Transfer(
+            new TransferRequest(
+                transferAmount,
+                sender.Id,
+                nonExistentAccountId));
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
@@ -62,13 +61,13 @@ public class TransferTest
         const decimal accountBalance = 1;
         const string nonExistentAccountId = "invalid";
         var (service, receiver) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
-        var transferToNonexistentAccountRequest = new TransferRequest(
-            transferAmount, 
-            nonExistentAccountId,
-            receiver.Id);
 
         // Act
-        var actual = await service.Transfer(transferToNonexistentAccountRequest);
+        var actual = await service.Transfer(
+            new TransferRequest(
+                transferAmount, 
+                nonExistentAccountId,
+                receiver.Id));
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
@@ -84,14 +83,13 @@ public class TransferTest
         var (service,
             sender,
             receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
-        
-        var transferZeroOrLessRequest = new TransferRequest(
-            transferAmount, 
-            sender.Id, 
-            receiver.Id);
 
         // Act
-        var actual = await service.Transfer(transferZeroOrLessRequest);
+        var actual = await service.Transfer(
+            new TransferRequest(
+                transferAmount, 
+                sender.Id, 
+                receiver.Id));
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
@@ -107,14 +105,13 @@ public class TransferTest
         var (service,
             sender,
             receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
-        
-        var transferLargerThanBalanceRequest = new TransferRequest(
-            transferAmount, 
-            sender.Id, 
-            receiver.Id);
 
         // Act
-        var actual = await service.Transfer(transferLargerThanBalanceRequest);
+        var actual = await service.Transfer(
+            new TransferRequest(
+                transferAmount, 
+                sender.Id, 
+                receiver.Id));
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
