@@ -13,20 +13,20 @@ public class ConvertTests
         // Arrange
         const string validConversionCurrency = "fakeCurrency";
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
-        var toValidCurrencyRequest = new AccountRequest<ConversionRequest>(
-            account.Id, 
-            new ConversionRequest(validConversionCurrency));
-        
-        var expectedContent = new ConversionResponse(new Dictionary<string, decimal>
-        {
-            { "fakeCurrency", 2 }
-        });
         
         // Act
-        var actual = await service.Convert(toValidCurrencyRequest);
+        var actual = await service.Convert(
+            new AccountRequest<ConversionRequest>(
+                account.Id, 
+                new ConversionRequest(validConversionCurrency)));
         
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
-        Assert.Equivalent(expectedContent, actual.Content);
+        Assert.Equivalent(
+            new ConversionResponse(new Dictionary<string, decimal>
+            {
+                { "fakeCurrency", 2 }
+            }),
+            actual.Content);
     }
     
     [Fact]
@@ -35,11 +35,12 @@ public class ConvertTests
         // Arrange
         const string invalidConversionCurrency = "invalidCurrency";
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
-        var toInvalidCurrencyRequest = new AccountRequest<ConversionRequest>(account.Id, 
-            new ConversionRequest(invalidConversionCurrency));
         
         // Act
-        var actual = await service.Convert(toInvalidCurrencyRequest);
+        var actual = await service.Convert(
+            new AccountRequest<ConversionRequest>(
+                account.Id, 
+                new ConversionRequest(invalidConversionCurrency)));
         
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
@@ -53,11 +54,11 @@ public class ConvertTests
         const string validConversionRequest = "fakeCurrency";
         const string nonexistentId = "invalid";
         var service = AccountsTestHelpers.CreateServiceWithConversionDictionaryAndEmptyRepository();
-        var convertNonexistentAccountRequest = new AccountRequest<ConversionRequest>(nonexistentId, 
-            new ConversionRequest(validConversionRequest));
         
         // Act
-        var actual = await service.Convert(convertNonexistentAccountRequest);
+        var actual = await service.Convert(
+            new AccountRequest<ConversionRequest>(nonexistentId, 
+                new ConversionRequest(validConversionRequest)));
         
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
