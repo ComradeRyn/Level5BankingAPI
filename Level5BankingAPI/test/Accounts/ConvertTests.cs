@@ -20,6 +20,7 @@ public class ConvertTests
                 account.Id, 
                 new ConversionRequest(validConversionCurrency)));
         
+        // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equivalent(
             new ConversionResponse(new Dictionary<string, decimal>
