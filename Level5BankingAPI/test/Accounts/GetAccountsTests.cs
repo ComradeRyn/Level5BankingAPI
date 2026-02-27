@@ -8,7 +8,7 @@ namespace Test.Accounts;
 public class GetAccountsTests
 {
     [Fact]
-    public async Task Search_NoArgs_ReturnAllAccounts()
+    public async Task Search_DefaultArgs_ReturnAllAccounts()
     {
         // Arrange
         var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
@@ -61,16 +61,16 @@ public class GetAccountsTests
     }
 
     [Fact]
-    public async Task Search_NameNoMatch_ReturnEmptyList()
+    public async Task Search_NameWithNoMatch_ReturnEmptyList()
     {
         // Arrange
-        const string noMatchingName = "R";
+        const string nameWithNoMatch = "R";
         var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
         
         // Act
         var (actual, _) = await service.GetAccounts(
             new GetAccountsRequest(
-                noMatchingName, 
+                nameWithNoMatch, 
                 null, 
                 false, 
                 1, 
@@ -295,12 +295,6 @@ public class GetAccountsTests
         // Arrange
         var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
         
-        var expectedContent = new List<Application.DTOs.Account>()
-        {
-            DummyAccounts.Foo.AsDto(),
-            DummyAccounts.Bar.AsDto(),
-        };
-        
         // Act
         var (actual,paginationMetadata) = await service.GetAccounts(
             new GetAccountsRequest(
@@ -312,8 +306,14 @@ public class GetAccountsTests
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
-        Assert.Equal(expectedContent, actual.Content);
         Assert.Equal(2, paginationMetadata!.PageSize);
+        Assert.Equal(
+            new List<Application.DTOs.Account>()
+            {
+                DummyAccounts.Foo.AsDto(),
+                DummyAccounts.Bar.AsDto(),
+            },
+            actual.Content);
     }
 
     [Fact]
