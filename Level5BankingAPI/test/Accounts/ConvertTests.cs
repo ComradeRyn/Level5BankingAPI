@@ -26,7 +26,7 @@ public class ConvertTests
             new ConversionResponse(new Dictionary<string, decimal>
             {
                 { "fakeCurrency1", 2 },
-                { "fakeCurrency2", 0.5m},
+                { "fakeCurrency2", 0.5m },
             }),
             actual.Content);
     }
