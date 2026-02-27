@@ -59,7 +59,8 @@ public class ConvertTests
         
         // Act
         var actual = await service.Convert(
-            new AccountRequest<ConversionRequest>(nonexistentId, 
+            new AccountRequest<ConversionRequest>(
+                nonexistentId,
                 new ConversionRequest(validConversionRequest)));
         
         // Assert

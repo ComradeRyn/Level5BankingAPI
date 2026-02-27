@@ -18,9 +18,12 @@ public class CreateTests
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
-        Assert.Equal(new Application.DTOs.Account("0",
-            validName,
-            0), actual.Content);
+        Assert.Equal(
+            new Application.DTOs.Account(
+                "0",
+                validName, 
+                0), 
+            actual.Content);
     }
 
     [Fact]

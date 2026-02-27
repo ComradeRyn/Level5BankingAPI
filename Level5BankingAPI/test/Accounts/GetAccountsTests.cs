@@ -25,7 +25,7 @@ public class GetAccountsTests
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
-            new List<Application.DTOs.Account>()
+            new List<Application.DTOs.Account>
             {
                 DummyAccounts.Foo.AsDto(), 
                 DummyAccounts.Bar.AsDto(), 
@@ -53,7 +53,7 @@ public class GetAccountsTests
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
-            new List<Application.DTOs.Account>()
+            new List<Application.DTOs.Account>
             {
                 DummyAccounts.Foo.AsDto(), 
             },
@@ -99,7 +99,7 @@ public class GetAccountsTests
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
-            new List<Application.DTOs.Account>()
+            new List<Application.DTOs.Account>
             {
                 DummyAccounts.Bar.AsDto(),
                 DummyAccounts.Baz.AsDto(),
@@ -126,7 +126,7 @@ public class GetAccountsTests
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
-            new List<Application.DTOs.Account>()
+            new List<Application.DTOs.Account>
             {
                 DummyAccounts.Foo.AsDto(),
                 DummyAccounts.Baz.AsDto(),
@@ -153,7 +153,7 @@ public class GetAccountsTests
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
-            new List<Application.DTOs.Account>()
+            new List<Application.DTOs.Account>
             {
                 DummyAccounts.Foo.AsDto(),
                 DummyAccounts.Bar.AsDto(),
@@ -180,7 +180,7 @@ public class GetAccountsTests
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
-            new List<Application.DTOs.Account>()
+            new List<Application.DTOs.Account>
             {
                 DummyAccounts.Baz.AsDto(),
                 DummyAccounts.Bar.AsDto(),
@@ -308,7 +308,7 @@ public class GetAccountsTests
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(2, paginationMetadata!.PageSize);
         Assert.Equal(
-            new List<Application.DTOs.Account>()
+            new List<Application.DTOs.Account>
             {
                 DummyAccounts.Foo.AsDto(),
                 DummyAccounts.Bar.AsDto(),
@@ -335,7 +335,7 @@ public class GetAccountsTests
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(1, paginationMetadata!.PageSize);
         Assert.Equal(
-            new List<Application.DTOs.Account>()
+            new List<Application.DTOs.Account>
             {
                 DummyAccounts.Foo.AsDto(),
             },
