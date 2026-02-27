@@ -38,9 +38,11 @@ public class GetAccountsTests
     public async Task Search_Name_ReturnAccountsWithName()
     {
         // Arrange
+        const string nameWithMatchingResult = "Foo";
+        
         var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
         var onlyNamesContainingFooRequest = new GetAccountsRequest(
-            "Foo", 
+            nameWithMatchingResult, 
             null, 
             false, 
             1, 
@@ -64,6 +66,7 @@ public class GetAccountsTests
     {
         // Arrange
         const string noMatchingName = "R";
+        
         var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
         var noMatchingNameRequest = new GetAccountsRequest(
             noMatchingName, 
