@@ -15,19 +15,17 @@ public class ConvertTests
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
         var conversionRequest = new ConversionRequest(validConversionCurrency);
         var toValidCurrencyRequest = new AccountRequest<ConversionRequest>(account.Id, conversionRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        var expectedConversion = new KeyValuePair<string, decimal>("fakeCurrency", 2);
+        
+        var expectedDictionary = new Dictionary<string, decimal>()
+        {
+            { "fakeCurrency", 2}
+        };
         
         // Act
         var actual = await service.Convert(toValidCurrencyRequest);
         
-        // Assert
-        var actualContainsKey = actual.Content!.ConvertedCurrencies.ContainsKey(expectedConversion.Key);
-        var actualContainsValue = actual.Content!.ConvertedCurrencies.ContainsValue(expectedConversion.Value);
-        
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
-        Assert.True(actualContainsValue && actualContainsKey);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
+        Assert.True(TestDictionaryEquivalence(expectedDictionary, actual.Content!.ConvertedCurrencies));
     }
     
     [Fact]
@@ -39,14 +37,12 @@ public class ConvertTests
         var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
         var conversionRequest = new ConversionRequest(invalidConversionCurrency);
         var toInvalidCurrencyRequest = new AccountRequest<ConversionRequest>(account.Id, conversionRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
         
         // Act
         var actual = await service.Convert(toInvalidCurrencyRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 
@@ -60,14 +56,22 @@ public class ConvertTests
         var service = AccountsTestHelpers.CreateServiceWithConversionDictionaryAndEmptyRepository();
         var conversionRequest = new ConversionRequest(validConversionRequest);
         var convertNonexistentAccountRequest = new AccountRequest<ConversionRequest>(nonexistentId, conversionRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
         
         // Act
         var actual = await service.Convert(convertNonexistentAccountRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
         Assert.Null(actual.Content);
+    }
+
+    private static bool TestDictionaryEquivalence(
+        Dictionary<string, decimal> dictionaryOne,
+        Dictionary<string, decimal> dictionaryTwo)
+    {
+        var areKeysEqual = dictionaryOne.Keys.ToList()[0] == dictionaryTwo.Keys.ToList()[0];
+        var areValuesEqual = dictionaryOne.Values.ToList()[0] == dictionaryTwo.Values.ToList()[0];
+        
+        return areValuesEqual && areKeysEqual;
     }
 }
