@@ -10,11 +10,11 @@ public class TransferTests
     public async Task Transfer_PositiveLessThanOrEqualBalance_ReturnUpdatedReceiverAccount()
     {
         // Arrange
-        const decimal accountOneBalance = 1;
+        const decimal senderBalance = 1;
         const decimal transferAmount = 1;
         var (service,
             sender,
-            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountOneBalance);
+            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(senderBalance);
 
         // Act
         var actual = await service.Transfer(
@@ -58,9 +58,9 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 1;
-        const decimal accountBalance = 1;
+        const decimal senderBalance = 1;
         const string nonExistentAccountId = "invalid";
-        var (service, receiver) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
+        var (service, receiver) = AccountsTestHelpers.CreateServiceWithOneAccount(senderBalance);
 
         // Act
         var actual = await service.Transfer(
@@ -79,10 +79,10 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 0;
-        const decimal accountBalance = 1;
+        const decimal senderBalance = 1;
         var (service,
             sender,
-            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
+            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(senderBalance);
 
         // Act
         var actual = await service.Transfer(
@@ -100,11 +100,11 @@ public class TransferTests
     public async Task Transfer_LargerThanSenderBalance_ReturnFailure()
     {
         // Arrange
-        const decimal accountBalance = 1;
-        const decimal transferAmount = accountBalance + 1;
+        const decimal senderBalance = 1;
+        const decimal transferAmount = 2;
         var (service,
             sender,
-            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(accountBalance);
+            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(senderBalance);
 
         // Act
         var actual = await service.Transfer(
