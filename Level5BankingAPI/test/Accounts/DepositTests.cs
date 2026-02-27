@@ -14,18 +14,17 @@ public class DepositTests
         var changeBalanceRequest = new ChangeBalanceRequest(positiveAmount);
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
         var positiveAmountDepositRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new Application.DTOs.Account(
             account.Id, 
             account.HolderName, 
-            account.Balance + positiveAmount);
+            1);
         
         // Act
         var actual = await service.Deposit(positiveAmountDepositRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -37,14 +36,12 @@ public class DepositTests
         var changeBalanceRequest = new ChangeBalanceRequest(zeroOrLessAmount);
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
         var zeroOrLessAccountRequest = new AccountRequest<ChangeBalanceRequest>(account.Id, changeBalanceRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
         
         // Act
         var actual = await service.Deposit(zeroOrLessAccountRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 
@@ -59,13 +56,11 @@ public class DepositTests
         var depositToNonExistentAccountRequest = 
             new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, changeBalanceRequest);
         
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
-        
         // Act
         var actual = await service.Deposit(depositToNonExistentAccountRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 }

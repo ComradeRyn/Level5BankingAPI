@@ -13,13 +13,11 @@ public class GetAccountTests
         const string nonIncludedId = "invalid";
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
-        
         // Act
         var actual = await service.GetAccount(nonIncludedId);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 
@@ -28,15 +26,12 @@ public class GetAccountTests
     {
         // Arrange
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        var expectedContent = account.AsDto();
         
         // Act
         var actual = await service.GetAccount(account.Id);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
-        Assert.Equal(expectedContent, actual.Content);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
+        Assert.Equal(account.AsDto(), actual.Content);
     }
 }

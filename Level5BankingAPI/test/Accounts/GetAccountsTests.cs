@@ -18,8 +18,7 @@ public class GetAccountsTests
             false, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new List<Application.DTOs.Account>()
         {
             DummyAccounts.Foo.AsDto(), 
@@ -31,7 +30,7 @@ public class GetAccountsTests
         var (actual, _) = await service.GetAccounts(noArgsRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -46,8 +45,7 @@ public class GetAccountsTests
             false, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new List<Application.DTOs.Account>()
         {
             DummyAccounts.Foo.AsDto(), 
@@ -57,7 +55,7 @@ public class GetAccountsTests
         var (actual, _) = await service.GetAccounts(onlyNamesContainingFooRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -65,21 +63,20 @@ public class GetAccountsTests
     public async Task Search_NameNoMatch_ReturnEmptyList()
     {
         // Arrange
+        const string noMatchingName = "R";
         var service = AccountsTestHelpers.CreateServiceWithThreeAccounts();
         var noMatchingNameRequest = new GetAccountsRequest(
-            "R", 
+            noMatchingName, 
             null, 
             false, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         
         // Act
         var (actual, _) = await service.GetAccounts(noMatchingNameRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Empty(actual.Content!);
     }
 
@@ -94,8 +91,7 @@ public class GetAccountsTests
             false, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new List<Application.DTOs.Account>()
         {
             DummyAccounts.Bar.AsDto(),
@@ -107,7 +103,7 @@ public class GetAccountsTests
         var (actual, _) = await service.GetAccounts(sortByNameRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -122,8 +118,7 @@ public class GetAccountsTests
             true, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new List<Application.DTOs.Account>()
         {
             DummyAccounts.Foo.AsDto(),
@@ -135,7 +130,7 @@ public class GetAccountsTests
         var (actual, _) = await service.GetAccounts(sortByNameDescendingRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -150,8 +145,7 @@ public class GetAccountsTests
             false, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new List<Application.DTOs.Account>()
         {
             DummyAccounts.Foo.AsDto(),
@@ -163,7 +157,7 @@ public class GetAccountsTests
         var (actual, _) = await service.GetAccounts(sortByBalanceRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -178,8 +172,7 @@ public class GetAccountsTests
             true, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new List<Application.DTOs.Account>()
         {
             DummyAccounts.Baz.AsDto(),
@@ -191,7 +184,7 @@ public class GetAccountsTests
         var (actual, _) = await service.GetAccounts(sortByBalanceDescendingRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -206,14 +199,12 @@ public class GetAccountsTests
             true, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
         
         // Act
         var (actual, _) = await service.GetAccounts(sortByInvalidKeywordRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 
@@ -228,14 +219,12 @@ public class GetAccountsTests
             false, 
             1, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
         
         // Act
         var (actual, _) = await service.GetAccounts(searchEmptyDatabaseRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Empty(actual.Content!);
     }
 
@@ -250,17 +239,13 @@ public class GetAccountsTests
             false, 
             0, 
             10);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        const int expectedPageNumber = 1;
-
         
         // Act
         var (actual,paginationMetadata) = await service.GetAccounts(pageNumberZeroRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
-        Assert.Equal(expectedPageNumber, paginationMetadata!.CurrentPage);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
+        Assert.Equal(1, paginationMetadata!.CurrentPage);
     }
 
     [Fact]
@@ -274,18 +259,13 @@ public class GetAccountsTests
             false, 
             2, 
             1);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        const int expectedPageNumber = 2;
-        var expectedContent = new List<Application.DTOs.Account> { DummyAccounts.Bar.AsDto() };
         
         // Act
         var (actual,paginationMetadata) = await service.GetAccounts(validPageNumberRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
-        Assert.Equal(expectedContent, actual.Content);
-        Assert.Equal(expectedPageNumber, paginationMetadata!.CurrentPage);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
+        Assert.Equal(2, paginationMetadata!.CurrentPage);
     }
 
     [Fact]
@@ -299,16 +279,13 @@ public class GetAccountsTests
             false,
             1,
             0);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        const int expectedPageSize = 10;
         
         // Act
         var (actual,paginationMetadata) = await service.GetAccounts(pageSizeZeroRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
-        Assert.Equal(expectedPageSize, paginationMetadata!.PageSize);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
+        Assert.Equal(10, paginationMetadata!.PageSize);
     }
 
     [Fact]
@@ -322,9 +299,7 @@ public class GetAccountsTests
             false,
             1,
             2);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        const int expectedPageSize = 2;
+        
         var expectedContent = new List<Application.DTOs.Account>()
         {
             DummyAccounts.Foo.AsDto(),
@@ -335,9 +310,9 @@ public class GetAccountsTests
         var (actual,paginationMetadata) = await service.GetAccounts(validPageSizeRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
-        Assert.Equal(expectedPageSize, paginationMetadata!.PageSize);
+        Assert.Equal(2, paginationMetadata!.PageSize);
     }
 
     [Fact]
@@ -351,9 +326,7 @@ public class GetAccountsTests
             true,
             1,
             1);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        const int expectedPageSize = 1;
+        
         var expectedContent = new List<Application.DTOs.Account>()
         {
             DummyAccounts.Baz.AsDto(),
@@ -363,8 +336,8 @@ public class GetAccountsTests
         var (actual,paginationMetadata) = await service.GetAccounts(validPageSizeRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
-        Assert.Equal(expectedPageSize, paginationMetadata!.PageSize);
+        Assert.Equal(1, paginationMetadata!.PageSize);
     }
 }

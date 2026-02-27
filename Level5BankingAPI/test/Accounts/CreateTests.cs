@@ -13,16 +13,13 @@ public class CreateTests
         const string validName = "Foo F Foobert";
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var validNameRequest = new CreationRequest(validName);
-        
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
-        var expectedContent = new Application.DTOs.Account("0",validName,0);
 
         // Act
         var actual = await service.CreateAccount(validNameRequest);
 
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
-        Assert.Equal(expectedContent, actual.Content);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
+        Assert.Equal(new Application.DTOs.Account("0",validName,0), actual.Content);
     }
 
     [Fact]
@@ -33,13 +30,11 @@ public class CreateTests
         var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         var invalidNameRequest = new CreationRequest(invalidName);
 
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
-
         // Act
         var actual = await service.CreateAccount(invalidNameRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 }

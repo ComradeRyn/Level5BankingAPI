@@ -16,18 +16,17 @@ public class WithdrawTests
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var positiveAmountWithinBoundsRequest = new AccountRequest<ChangeBalanceRequest>
             (account.Id, changeBalanceRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new Application.DTOs.Account(
             account.Id, 
             account.HolderName, 
-            accountBalance - withdrawAmount);
+            0);
         
         // Act
         var actual = await service.Withdraw(positiveAmountWithinBoundsRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -40,14 +39,12 @@ public class WithdrawTests
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var amountZeroOrLessRequest = new AccountRequest<ChangeBalanceRequest>
             (account.Id, changeBalanceRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
         
         // Act
         var actual = await service.Withdraw(amountZeroOrLessRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         Assert.Null(actual.Content);
     }
     
@@ -61,14 +58,12 @@ public class WithdrawTests
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var positiveAmountRequest = 
             new AccountRequest<ChangeBalanceRequest>(nonExistentAccountId, changeBalanceRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
         
         // Act
         var actual = await service.Withdraw(positiveAmountRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
         Assert.Null(actual.Content);
     }
     
@@ -81,15 +76,13 @@ public class WithdrawTests
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
         var changeBalanceRequest = new ChangeBalanceRequest(withdrawAmount);
         var withdrawGreaterThanBalanceRequest = new AccountRequest<ChangeBalanceRequest>
-            (account.Id, changeBalanceRequest);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
+            (account.Id, changeBalanceRequest); ;
         
         // Act
         var actual = await service.Withdraw(withdrawGreaterThanBalanceRequest);
         
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 }

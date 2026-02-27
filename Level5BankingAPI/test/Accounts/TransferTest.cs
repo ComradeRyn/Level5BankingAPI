@@ -21,18 +21,17 @@ public class TransferTest
             transferAmount, 
             sender.Id, 
             receiver.Id);
-
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.OK;
+        
         var expectedContent = new Application.DTOs.Account(
-            sender.Id, 
-            sender.HolderName, 
-            sender.Balance - transferAmount);
+            sender.Id,
+            sender.HolderName,
+            0);
 
         // Act
         var actual = await service.Transfer(transferPositiveInboundsAmountRequest);
 
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(expectedContent, actual.Content);
     }
 
@@ -49,13 +48,11 @@ public class TransferTest
             sender.Id,
             nonExistentAccountId);
 
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
-
         // Act
         var actual = await service.Transfer(transferFromNonexistentAccountRequest);
 
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 
@@ -73,13 +70,11 @@ public class TransferTest
             nonExistentAccountId,
             receiver.Id);
 
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.NotFound;
-
         // Act
         var actual = await service.Transfer(transferToNonexistentAccountRequest);
 
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 
@@ -99,13 +94,11 @@ public class TransferTest
             sender.Id, 
             receiver.Id);
 
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
-
         // Act
         var actual = await service.Transfer(transferZeroOrLessRequest);
 
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 
@@ -125,13 +118,11 @@ public class TransferTest
             sender.Id, 
             receiver.Id);
 
-        const HttpStatusCode expectedStatusCode = HttpStatusCode.BadRequest;
-
         // Act
         var actual = await service.Transfer(transferLargerThanBalanceRequest);
 
         // Assert
-        Assert.Equal(expectedStatusCode, actual.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         Assert.Null(actual.Content);
     }
 }
