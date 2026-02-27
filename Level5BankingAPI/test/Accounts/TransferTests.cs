@@ -4,7 +4,7 @@ using Test.Accounts.Helpers;
 
 namespace Test.Accounts;
 
-public class TransferTest
+public class TransferTests
 {
     [Fact]
     public async Task Transfer_PositiveLessThanOrEqualBalance_ReturnUpdatedReceiverAccount()
