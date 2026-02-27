@@ -325,7 +325,7 @@ public class GetAccountsTests
         // Act
         var (actual,paginationMetadata) = await service.GetAccounts(
             new GetAccountsRequest(
-                "Ba",
+                null,
                 "name",
                 true,
                 1,
@@ -337,7 +337,7 @@ public class GetAccountsTests
         Assert.Equal(
             new List<Application.DTOs.Account>()
             {
-                DummyAccounts.Baz.AsDto(),
+                DummyAccounts.Foo.AsDto(),
             },
             actual.Content);
     }
