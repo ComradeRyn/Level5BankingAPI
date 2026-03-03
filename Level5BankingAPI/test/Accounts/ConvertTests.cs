@@ -8,7 +8,7 @@ namespace Test.Accounts;
 public class ConvertTests
 {
     [Fact]
-    public async Task Convert_toValidCurrencies_ReturnConvertedCurrencies()
+    public async Task Convert_ToValidCurrencies_ReturnConvertedCurrencies()
     {
         // Arrange
         const string validConversionCurrency = "fakeCurrency1,fakeCurrency2";
@@ -32,7 +32,7 @@ public class ConvertTests
     }
     
     [Fact]
-    public async Task Convert_toInvalidCurrency_ReturnFailure()
+    public async Task Convert_ToInvalidCurrency_ReturnFailure()
     {
         // Arrange
         const string invalidCurrency = "invalid";
