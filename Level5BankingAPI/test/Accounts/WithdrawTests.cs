@@ -34,7 +34,7 @@ public class WithdrawTests
     public async Task Withdraw_ZeroOrLess_ReturnFailure()
     {
         // Arrange
-        const decimal withdrawAmount = -1;
+        const decimal withdrawAmount = 0;
         var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
         
         // Act
