@@ -55,7 +55,7 @@ public static class AccountsTestHelpers
         return (service, firstAccount, secondAccount);
     }
 
-    public static AccountsService CreateServiceWithThreeAccounts()
+    public static AccountsService CreateServiceWithThreeReadOnlyAccounts()
     {
         var (service, repository) = CreateServiceAndRepository();
         repository.AddExistingAccount(DummyAccounts.Foo);
