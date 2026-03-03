@@ -13,11 +13,12 @@ public class DepositTests
     {
         // Arrange
         const decimal positiveAmount = 1;
+        const decimal accountBalance = 0;
         var account = new Account
         {
             Id = "0",
             HolderName = "Foo F Foobert",
-            Balance = 1
+            Balance = accountBalance
         };
 
         var repository = new FakeAccountRepository(
@@ -40,7 +41,7 @@ public class DepositTests
             new Application.DTOs.Account(
                 account.Id, 
                 account.HolderName, 
-                account.Balance),
+                accountBalance + positiveAmount),
             actual.Content);
     }
 

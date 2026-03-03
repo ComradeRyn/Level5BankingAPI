@@ -50,7 +50,7 @@ public class TransferTests
             new Application.DTOs.Account(
                 sender.Id,
                 sender.HolderName,
-                0), 
+                senderBalance - transferAmount), 
             actual.Content);
     }
 

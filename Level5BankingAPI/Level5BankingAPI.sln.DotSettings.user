@@ -5,10 +5,7 @@
   &lt;Project Location="C:\Repos\Level5BankingAPI\Level5BankingAPI\Test" Presentation="&amp;lt;Test&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=66de0a75_002D98a4_002D4122_002Dbf17_002D7a5ff24c3707/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAccountsTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::D7F97C12-B940-40C1-8A14-BC29F221E94F::net10.0::Test.Accounts.GetAccountsTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::D7F97C12-B940-40C1-8A14-BC29F221E94F::net10.0::Test.Accounts.TransferTests&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Project Location="C:\Repos\Level5BankingAPI\Level5BankingAPI\Test" Presentation="&amp;lt;Test&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	</wpf:ResourceDictionary>

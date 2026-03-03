@@ -41,7 +41,7 @@ public class WithdrawTests
             new Application.DTOs.Account(
                 account.Id, 
                 account.HolderName, 
-                0), 
+                accountBalance - withdrawAmount), 
             actual.Content);
     }
 
