@@ -10,11 +10,11 @@ public class TransferTests
     public async Task Transfer_PositiveLessThanOrEqualBalance_ReturnUpdatedReceiverAccount()
     {
         // Arrange
-        const decimal senderBalance = 1;
         const decimal transferAmount = 1;
-        var (service,
-            sender,
-            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(senderBalance);
+        var service = AccountsTestHelpers.CreateService();
+        var sender = DummyAccounts.Foo;
+        var receiver = DummyAccounts.Bar;
+        sender.Balance = 1;
 
         // Act
         var actual = await service.Transfer(
@@ -39,7 +39,9 @@ public class TransferTests
         // Arrange
         const decimal transferAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var (service, sender) = AccountsTestHelpers.CreateServiceWithOneAccount();
+        var service = AccountsTestHelpers.CreateService();
+        var sender = DummyAccounts.Foo;
+        sender.Balance = 1;
 
         // Act
         var actual = await service.Transfer(
@@ -58,9 +60,11 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 1;
-        const decimal senderBalance = 1;
         const string nonExistentAccountId = "invalid";
-        var (service, receiver) = AccountsTestHelpers.CreateServiceWithOneAccount(senderBalance);
+        var service = AccountsTestHelpers.CreateService();
+        var sender = DummyAccounts.Foo;
+        var receiver = DummyAccounts.Bar;
+        sender.Balance = 1;
 
         // Act
         var actual = await service.Transfer(
@@ -79,10 +83,10 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 0;
-        const decimal senderBalance = 1;
-        var (service,
-            sender,
-            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(senderBalance);
+        var service = AccountsTestHelpers.CreateService();
+        var sender = DummyAccounts.Foo;
+        var receiver = DummyAccounts.Bar;
+        sender.Balance = 1;
 
         // Act
         var actual = await service.Transfer(
@@ -100,11 +104,11 @@ public class TransferTests
     public async Task Transfer_LargerThanSenderBalance_ReturnFailure()
     {
         // Arrange
-        const decimal senderBalance = 1;
         const decimal transferAmount = 2;
-        var (service,
-            sender,
-            receiver) = AccountsTestHelpers.CreateServiceWithTwoAccounts(senderBalance);
+        var service = AccountsTestHelpers.CreateService();
+        var sender = DummyAccounts.Foo;
+        var receiver = DummyAccounts.Bar;
+        sender.Balance = 1;
 
         // Act
         var actual = await service.Transfer(

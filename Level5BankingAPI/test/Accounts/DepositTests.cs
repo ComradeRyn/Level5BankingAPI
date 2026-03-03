@@ -11,7 +11,8 @@ public class DepositTests
     {
         // Arrange
         const decimal positiveAmount = 1;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
+        var service = AccountsTestHelpers.CreateService();
+        var account = DummyAccounts.Foo;
         
         // Act
         var actual = await service.Deposit(
@@ -25,7 +26,7 @@ public class DepositTests
             new Application.DTOs.Account(
                 account.Id, 
                 account.HolderName, 
-                1),
+                account.Balance),
             actual.Content);
     }
 
@@ -34,7 +35,8 @@ public class DepositTests
     {
         // Arrange
         const decimal zeroOrLessAmount = -1;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
+        var service = AccountsTestHelpers.CreateService();
+        var account = DummyAccounts.Foo;
         
         // Act
         var actual = await service.Deposit(

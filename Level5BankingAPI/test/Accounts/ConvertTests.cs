@@ -12,7 +12,8 @@ public class ConvertTests
     {
         // Arrange
         const string validConversionCurrency = "fakeCurrency1,fakeCurrency2";
-        var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
+        var service = AccountsTestHelpers.CreateService();
+        var account = DummyAccounts.Foo;
         
         // Act
         var actual = await service.Convert(
@@ -25,8 +26,8 @@ public class ConvertTests
         Assert.Equivalent(
             new ConversionResponse(new Dictionary<string, decimal>
             {
-                { "fakeCurrency1", 2 },
-                { "fakeCurrency2", 0.5m },
+                { "fakeCurrency1", account.Balance * 2 },
+                { "fakeCurrency2", account.Balance * 0.5m },
             }),
             actual.Content);
     }
@@ -36,7 +37,8 @@ public class ConvertTests
     {
         // Arrange
         const string invalidCurrency = "invalid";
-        var (service, account) = AccountsTestHelpers.CreateServiceWithConversionDictionary();
+        var service = AccountsTestHelpers.CreateService();
+        var account = DummyAccounts.Foo;
         
         // Act
         var actual = await service.Convert(
@@ -55,7 +57,7 @@ public class ConvertTests
         // Arrange
         const string validConversionRequest = "fakeCurrency1";
         const string nonexistentId = "invalid";
-        var service = AccountsTestHelpers.CreateServiceWithConversionDictionaryAndEmptyRepository();
+        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
         
         // Act
         var actual = await service.Convert(

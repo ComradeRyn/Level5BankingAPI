@@ -25,7 +25,8 @@ public class GetAccountTests
     public async Task Get_ExistentAccount_ReturnFoundAccount()
     {
         // Arrange
-        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
+        var service = AccountsTestHelpers.CreateService();
+        var account = DummyAccounts.Foo;
         
         // Act
         var actual = await service.GetAccount(account.Id);

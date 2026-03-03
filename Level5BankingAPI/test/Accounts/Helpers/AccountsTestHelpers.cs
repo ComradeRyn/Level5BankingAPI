@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using Application.Services;
+﻿using Application.Services;
 using Domain.Models;
 using Test.Clients;
 using Test.Repositories;
@@ -8,140 +7,35 @@ namespace Test.Accounts.Helpers;
 
 public static class AccountsTestHelpers
 {
-    public static AccountsService CreateServiceWithEmptyRepository(ICurrencyClient? client = null)
-    {
-        var accountsDictionary = new Dictionary<string, Account>();
-        var repository = new FakeAccountRepository(accountsDictionary);
-        var service = new AccountsService(repository, client!);
-
-        return service;
-    }
-    
-    public static (AccountsService, Account) CreateServiceWithOneAccount(decimal balance = 0)
-    {
-        var (service, repository) = CreateServiceAndRepository();
-        var account = new Account
-        {
-            HolderName = "Qux Q Quxson",
-            Balance = balance,
-            Id = "0"
-        };
-        repository.AddExistingAccount(account);
-
-        return (service, account);
-    }
-    
-    public static (AccountsService, Account, Account) CreateServiceWithTwoAccounts(
-        decimal firstBalance = 0,
-        decimal secondBalance = 0)
-    {
-        var (service, repository) = CreateServiceAndRepository();
-        var firstAccount = new Account
-        {
-            HolderName = "Quux Q Quxerson",
-            Balance = firstBalance,
-            Id = "0",
-        };
-        var secondAccount = new Account
-        {
-            HolderName = "Corge C Corgeson",
-            Balance = secondBalance,
-            Id = "1"
-        };
-        
-        repository.AddExistingAccount(firstAccount);
-        repository.AddExistingAccount(secondAccount);
-
-        return (service, firstAccount, secondAccount);
-    }
-
-    public static AccountsService CreateServiceWithThreeAccountsReadOnly()
-    {
-        var (service, repository) = CreateServiceAndRepository();
-        repository.AddExistingAccount(DummyAccounts.Foo);
-        repository.AddExistingAccount(DummyAccounts.Bar);
-        repository.AddExistingAccount(DummyAccounts.Baz);
-
-        return service;
-    }
-
-    public static (AccountsService, Account) CreateServiceWithConversionDictionary()
-    {
-        var conversionDictionary = new Dictionary<string, decimal>()
-        {
-            { "fakeCurrency1", 2 },
-            { "fakeCurrency2", .5m }
-        };
-        
-        var currencyClient = new FakeCurrencyClient(conversionDictionary);
-        var (service, repository) = CreateServiceAndRepository(currencyClient);
-        var account = new Account
-        {
-            HolderName = "Qux Q Quxson",
-            Balance = 1,
-            Id = "0"
-        };
-        repository.AddExistingAccount(account);
-
-        return (service, account);
-    }
-
-    public static AccountsService CreateServiceWithConversionDictionaryAndEmptyRepository()
-    {
-        var conversionDictionary = new Dictionary<string, decimal>()
-        {
-            { "fakeCurrency1", 2 },
-            { "fakeCurrency2", .5m }
-        };
-        
-        var currencyClient = new FakeCurrencyClient(conversionDictionary);
-        var service = CreateServiceWithEmptyRepository(currencyClient);
-
-        return service;
-    }
-
     public static AccountsService CreateService()
     {
         var accountsDictionary = new Dictionary<string, Account>
         {
-            {DummyAccounts.Foo.Id, DummyAccounts.Foo},
-            {DummyAccounts.Bar.Id, DummyAccounts.Bar},
-            {DummyAccounts.Baz.Id, DummyAccounts.Baz}
+            { DummyAccounts.Foo.Id, DummyAccounts.Foo },
+            { DummyAccounts.Bar.Id, DummyAccounts.Bar },
+            { DummyAccounts.Baz.Id, DummyAccounts.Baz }
         };
+        var repository = new FakeAccountRepository(accountsDictionary);
+
+        return new AccountsService(repository, CreateCurrencyClient());
+    }
+
+    public static AccountsService CreateServiceWithEmptyRepository()
+    {
+        var accountsDictionary = new Dictionary<string, Account>();
+        var repository = new FakeAccountRepository(accountsDictionary);
+
+        return new AccountsService(repository, CreateCurrencyClient());
+    }
+
+    private static FakeCurrencyClient CreateCurrencyClient()
+    {
         var conversionDictionary = new Dictionary<string, decimal>
         {
             { "fakeCurrency1", 2 },
             { "fakeCurrency2", .5m }
         };
         
-        var repository = new FakeAccountRepository(accountsDictionary);
-        var currencyClient = new FakeCurrencyClient(conversionDictionary);
-
-        return new AccountsService(repository, currencyClient);
-    }
-
-    public static AccountsService CreateServiceWithEmptyRepo()
-    {
-        var accountsDictionary = new Dictionary<string, Account>();
-        var conversionDictionary = new Dictionary<string, decimal>
-        {
-            { "fakeCurrency1", 2 },
-            { "fakeCurrency2", .5m }
-        };
-        
-        var repository = new FakeAccountRepository(accountsDictionary);
-        var currencyClient = new FakeCurrencyClient(conversionDictionary);
-
-        return new AccountsService(repository, currencyClient);
-    }
-    
-    private static (AccountsService, FakeAccountRepository) CreateServiceAndRepository(
-        ICurrencyClient? currencyClient = null)
-    {
-        var accountsDictionary = new Dictionary<string, Account>();
-        var repository = new FakeAccountRepository(accountsDictionary);
-        var service = new AccountsService(repository, currencyClient!);
-
-        return (service, repository);
+        return new FakeCurrencyClient(conversionDictionary);
     }
 }

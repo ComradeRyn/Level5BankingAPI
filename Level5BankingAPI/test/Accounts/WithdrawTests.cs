@@ -12,7 +12,9 @@ public class WithdrawTests
         // Arrange
         const decimal accountBalance = 1;
         const decimal withdrawAmount = 1;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
+        var service = AccountsTestHelpers.CreateService();
+        var account = DummyAccounts.Foo;
+        account.Balance = accountBalance;
         
         // Act
         var actual = await service.Withdraw(
@@ -35,7 +37,8 @@ public class WithdrawTests
     {
         // Arrange
         const decimal withdrawAmount = 0;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount();
+        var service = AccountsTestHelpers.CreateService();
+        var account = DummyAccounts.Foo;
         
         // Act
         var actual = await service.Withdraw(
@@ -73,7 +76,9 @@ public class WithdrawTests
         // Arrange
         const decimal accountBalance = 1;
         const decimal withdrawAmount = 2;
-        var (service, account) = AccountsTestHelpers.CreateServiceWithOneAccount(accountBalance);
+        var service = AccountsTestHelpers.CreateService();
+        var account = DummyAccounts.Foo;
+        account.Balance = accountBalance;
         
         // Act
         var actual = await service.Withdraw(
