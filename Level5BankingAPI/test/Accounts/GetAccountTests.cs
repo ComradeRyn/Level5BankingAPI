@@ -38,7 +38,7 @@ public class GetAccountTests
         var repository = new FakeAccountRepository(
             new Dictionary<string, Account>()
             {
-                { account.Id, account}
+                { account.Id, account }
             });
         
         var service = AccountsTestHelpers.CreateService(repository);
