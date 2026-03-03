@@ -99,6 +99,41 @@ public static class AccountsTestHelpers
 
         return service;
     }
+
+    public static AccountsService CreateService()
+    {
+        var accountsDictionary = new Dictionary<string, Account>
+        {
+            {DummyAccounts.Foo.Id, DummyAccounts.Foo},
+            {DummyAccounts.Bar.Id, DummyAccounts.Bar},
+            {DummyAccounts.Baz.Id, DummyAccounts.Baz}
+        };
+        var conversionDictionary = new Dictionary<string, decimal>
+        {
+            { "fakeCurrency1", 2 },
+            { "fakeCurrency2", .5m }
+        };
+        
+        var repository = new FakeAccountRepository(accountsDictionary);
+        var currencyClient = new FakeCurrencyClient(conversionDictionary);
+
+        return new AccountsService(repository, currencyClient);
+    }
+
+    public static AccountsService CreateServiceWithEmptyRepo()
+    {
+        var accountsDictionary = new Dictionary<string, Account>();
+        var conversionDictionary = new Dictionary<string, decimal>
+        {
+            { "fakeCurrency1", 2 },
+            { "fakeCurrency2", .5m }
+        };
+        
+        var repository = new FakeAccountRepository(accountsDictionary);
+        var currencyClient = new FakeCurrencyClient(conversionDictionary);
+
+        return new AccountsService(repository, currencyClient);
+    }
     
     private static (AccountsService, FakeAccountRepository) CreateServiceAndRepository(
         ICurrencyClient? currencyClient = null)
