@@ -13,9 +13,7 @@ public class CreateTests
     {
         // Arrange
         const string validName = "Foo F Foobert";
-        var accounts = new Dictionary<string, Account>();
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
         var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
@@ -36,8 +34,7 @@ public class CreateTests
     {
         // Arrange
         const string invalidName = "invalid";
-        var accounts = new Dictionary<string, Account>();
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
         var service = AccountsTestHelpers.CreateService(repository);
 
         // Act

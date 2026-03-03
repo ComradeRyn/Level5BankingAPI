@@ -21,12 +21,12 @@ public class ConvertTests
             Balance = 1
         };
 
-        var accounts = new Dictionary<string, Account>()
-        {
-            { account.Id, account }
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { account.Id, account }
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -58,12 +58,12 @@ public class ConvertTests
             Balance = 1
         };
 
-        var accounts = new Dictionary<string, Account>()
-        {
-            { account.Id, account }
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { account.Id, account }
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -83,8 +83,7 @@ public class ConvertTests
         // Arrange
         const string validConversionRequest = "fakeCurrency1";
         const string nonexistentId = "invalid";
-        var accounts = new Dictionary<string, Account>();
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act

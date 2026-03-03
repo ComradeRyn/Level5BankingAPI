@@ -34,14 +34,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -91,14 +91,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -146,14 +146,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -195,14 +195,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -251,14 +251,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -307,14 +307,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -363,14 +363,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -419,14 +419,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -447,8 +447,7 @@ public class GetAccountsTests
     public async Task Search_EmptyDatabase_ReturnEmptyList()
     {
         // Arrange
-        var accounts = new Dictionary<string, Account>();
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -490,14 +489,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -539,14 +538,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -588,14 +587,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -637,14 +636,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
@@ -693,14 +692,14 @@ public class GetAccountsTests
             Balance = 2,
         };
 
-        var accounts = new Dictionary<string, Account>
-        {
-            { fooAccount.Id, fooAccount },
-            { barAccount.Id, barAccount },
-            { bazAccount.Id, bazAccount },
-        };
-
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { fooAccount.Id, fooAccount },
+                { barAccount.Id, barAccount },
+                { bazAccount.Id, bazAccount },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
         
         // Act

@@ -27,14 +27,14 @@ public class TransferTests
             HolderName = "Bar B Barson",
             Balance = 1
         };
-        
-        var accounts = new Dictionary<string, Account>()
-        {
-            { sender.Id, sender },
-            { receiver.Id, receiver }
-        };
 
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>()
+            {
+                { sender.Id, sender },
+                { receiver.Id, receiver }
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
@@ -66,13 +66,13 @@ public class TransferTests
             HolderName = "Foo F Foobert",
             Balance = 1
         };
-        
-        var accounts = new Dictionary<string, Account>()
-        {
-            { sender.Id, sender },
-        };
 
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>()
+            {
+                { sender.Id, sender },
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
@@ -92,14 +92,7 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 1;
-        const decimal senderBalance = 1;
         const string nonExistentAccountId = "invalid";
-        var sender = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = senderBalance
-        };
 
         var receiver = new Account
         {
@@ -107,14 +100,13 @@ public class TransferTests
             HolderName = "Bar B Barson",
             Balance = 1
         };
-        
-        var accounts = new Dictionary<string, Account>()
-        {
-            { sender.Id, sender },
-            { receiver.Id, receiver }
-        };
 
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>()
+            {
+                { receiver.Id, receiver }
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
@@ -148,14 +140,14 @@ public class TransferTests
             HolderName = "Bar B Barson",
             Balance = 1
         };
-        
-        var accounts = new Dictionary<string, Account>()
-        {
-            { sender.Id, sender },
-            { receiver.Id, receiver }
-        };
 
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>()
+            {
+                { sender.Id, sender },
+                { receiver.Id, receiver }
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
@@ -189,14 +181,14 @@ public class TransferTests
             HolderName = "Bar B Barson",
             Balance = 1
         };
-        
-        var accounts = new Dictionary<string, Account>()
-        {
-            { sender.Id, sender },
-            { receiver.Id, receiver }
-        };
 
-        var repository = new FakeAccountRepository(accounts);
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>()
+            {
+                { sender.Id, sender },
+                { receiver.Id, receiver }
+            });
+        
         var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
