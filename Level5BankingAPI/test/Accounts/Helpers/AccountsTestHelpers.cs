@@ -6,10 +6,7 @@ namespace Test.Accounts.Helpers;
 
 public static class AccountsTestHelpers
 {
-    public static AccountsService CreateService(FakeAccountRepository repository) 
-        => new(repository, CreateCurrencyClient());
-
-    private static FakeCurrencyClient CreateCurrencyClient()
+    public static AccountsService CreateService(FakeAccountRepository repository)
     {
         var conversionDictionary = new Dictionary<string, decimal>
         {
@@ -17,6 +14,6 @@ public static class AccountsTestHelpers
             { "fakeCurrency2", .5m }
         };
         
-        return new FakeCurrencyClient(conversionDictionary);
-    }
+        return new AccountsService(repository, new FakeCurrencyClient(conversionDictionary));
+    } 
 }
