@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using Application.Services;
+using Domain.Models;
 using Test.Accounts.Helpers;
+using Test.Repositories;
 
 namespace Test.Accounts;
 
@@ -11,7 +13,9 @@ public class GetAccountTests
     {
         // Arrange
         const string nonIncludedId = "invalid";
-        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var accounts = new Dictionary<string, Account>();
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.GetAccount(nonIncludedId);
@@ -25,8 +29,20 @@ public class GetAccountTests
     public async Task Get_ExistentAccount_ReturnFoundAccount()
     {
         // Arrange
-        var service = AccountsTestHelpers.CreateService();
-        var account = DummyAccounts.Foo;
+        var account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = 1
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { account.Id, account}
+        };
+        
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.GetAccount(account.Id);

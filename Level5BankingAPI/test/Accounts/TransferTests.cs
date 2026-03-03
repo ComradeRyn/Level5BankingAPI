@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Domain.Models;
 using Test.Accounts.Helpers;
+using Test.Repositories;
 
 namespace Test.Accounts;
 
@@ -11,10 +13,29 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 1;
-        var service = AccountsTestHelpers.CreateService();
-        var sender = DummyAccounts.Foo;
-        var receiver = DummyAccounts.Bar;
-        sender.Balance = 1;
+        const decimal senderBalance = 1;
+        var sender = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = senderBalance
+        };
+
+        var receiver = new Account
+        {
+            Id = "1",
+            HolderName = "Bar B Barson",
+            Balance = 1
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { sender.Id, sender },
+            { receiver.Id, receiver }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
         var actual = await service.Transfer(
@@ -39,9 +60,20 @@ public class TransferTests
         // Arrange
         const decimal transferAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var service = AccountsTestHelpers.CreateService();
-        var sender = DummyAccounts.Foo;
-        sender.Balance = 1;
+        var sender = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = 1
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { sender.Id, sender },
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
         var actual = await service.Transfer(
@@ -60,11 +92,30 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 1;
+        const decimal senderBalance = 1;
         const string nonExistentAccountId = "invalid";
-        var service = AccountsTestHelpers.CreateService();
-        var sender = DummyAccounts.Foo;
-        var receiver = DummyAccounts.Bar;
-        sender.Balance = 1;
+        var sender = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = senderBalance
+        };
+
+        var receiver = new Account
+        {
+            Id = "1",
+            HolderName = "Bar B Barson",
+            Balance = 1
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { sender.Id, sender },
+            { receiver.Id, receiver }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
         var actual = await service.Transfer(
@@ -83,10 +134,29 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 0;
-        var service = AccountsTestHelpers.CreateService();
-        var sender = DummyAccounts.Foo;
-        var receiver = DummyAccounts.Bar;
-        sender.Balance = 1;
+        const decimal senderBalance = 1;
+        var sender = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = senderBalance
+        };
+
+        var receiver = new Account
+        {
+            Id = "1",
+            HolderName = "Bar B Barson",
+            Balance = 1
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { sender.Id, sender },
+            { receiver.Id, receiver }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
         var actual = await service.Transfer(
@@ -105,10 +175,29 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 2;
-        var service = AccountsTestHelpers.CreateService();
-        var sender = DummyAccounts.Foo;
-        var receiver = DummyAccounts.Bar;
-        sender.Balance = 1;
+        const decimal senderBalance = 1;
+        var sender = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = senderBalance
+        };
+
+        var receiver = new Account
+        {
+            Id = "1",
+            HolderName = "Bar B Barson",
+            Balance = 1
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { sender.Id, sender },
+            { receiver.Id, receiver }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
         var actual = await service.Transfer(

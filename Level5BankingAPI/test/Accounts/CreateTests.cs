@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Domain.Models;
 using Test.Accounts.Helpers;
+using Test.Repositories;
 
 namespace Test.Accounts;
 
@@ -11,7 +13,10 @@ public class CreateTests
     {
         // Arrange
         const string validName = "Foo F Foobert";
-        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var accounts = new Dictionary<string, Account>();
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
         var actual = await service.CreateAccount(new CreationRequest(validName));
@@ -31,7 +36,9 @@ public class CreateTests
     {
         // Arrange
         const string invalidName = "invalid";
-        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var accounts = new Dictionary<string, Account>();
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
         var actual = await service.CreateAccount(new CreationRequest(invalidName));

@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Domain.Models;
 using Test.Accounts.Helpers;
+using Test.Repositories;
 
 namespace Test.Accounts;
 
@@ -11,8 +13,20 @@ public class DepositTests
     {
         // Arrange
         const decimal positiveAmount = 1;
-        var service = AccountsTestHelpers.CreateService();
-        var account = DummyAccounts.Foo;
+        var account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = 1
+        };
+
+        var accounts = new Dictionary<string, Account>()
+        {
+            { account.Id, account }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Deposit(
@@ -35,8 +49,20 @@ public class DepositTests
     {
         // Arrange
         const decimal zeroOrLessAmount = -1;
-        var service = AccountsTestHelpers.CreateService();
-        var account = DummyAccounts.Foo;
+        var account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = 1
+        };
+
+        var accounts = new Dictionary<string, Account>()
+        {
+            { account.Id, account }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Deposit(
@@ -55,7 +81,10 @@ public class DepositTests
         // Arrange
         const decimal positiveAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var accounts = new Dictionary<string, Account>();
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Deposit(

@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
+using Domain.Models;
 using Test.Accounts.Helpers;
+using Test.Repositories;
 
 namespace Test.Accounts;
 
@@ -12,8 +14,20 @@ public class ConvertTests
     {
         // Arrange
         const string validConversionCurrency = "fakeCurrency1,fakeCurrency2";
-        var service = AccountsTestHelpers.CreateService();
-        var account = DummyAccounts.Foo;
+        var account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = 1
+        };
+
+        var accounts = new Dictionary<string, Account>()
+        {
+            { account.Id, account }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Convert(
@@ -37,8 +51,20 @@ public class ConvertTests
     {
         // Arrange
         const string invalidCurrency = "invalid";
-        var service = AccountsTestHelpers.CreateService();
-        var account = DummyAccounts.Foo;
+        var account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = 1
+        };
+
+        var accounts = new Dictionary<string, Account>()
+        {
+            { account.Id, account }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Convert(
@@ -57,7 +83,9 @@ public class ConvertTests
         // Arrange
         const string validConversionRequest = "fakeCurrency1";
         const string nonexistentId = "invalid";
-        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var accounts = new Dictionary<string, Account>();
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Convert(

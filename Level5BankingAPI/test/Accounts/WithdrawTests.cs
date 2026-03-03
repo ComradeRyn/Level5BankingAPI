@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Domain.Models;
 using Test.Accounts.Helpers;
+using Test.Repositories;
 
 namespace Test.Accounts;
 
@@ -12,9 +14,20 @@ public class WithdrawTests
         // Arrange
         const decimal accountBalance = 1;
         const decimal withdrawAmount = 1;
-        var service = AccountsTestHelpers.CreateService();
-        var account = DummyAccounts.Foo;
-        account.Balance = accountBalance;
+        var account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = accountBalance
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { account.Id, account }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Withdraw(
@@ -37,8 +50,20 @@ public class WithdrawTests
     {
         // Arrange
         const decimal withdrawAmount = 0;
-        var service = AccountsTestHelpers.CreateService();
-        var account = DummyAccounts.Foo;
+        var account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = 1
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { account.Id, account }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Withdraw(
@@ -57,7 +82,9 @@ public class WithdrawTests
         // Arrange
         const decimal withdrawAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var service = AccountsTestHelpers.CreateServiceWithEmptyRepository();
+        var accounts = new Dictionary<string, Account>();
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Withdraw(
@@ -76,9 +103,20 @@ public class WithdrawTests
         // Arrange
         const decimal accountBalance = 1;
         const decimal withdrawAmount = 2;
-        var service = AccountsTestHelpers.CreateService();
-        var account = DummyAccounts.Foo;
-        account.Balance = accountBalance;
+        var account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = accountBalance
+        };
+        
+        var accounts = new Dictionary<string, Account>()
+        {
+            { account.Id, account }
+        };
+
+        var repository = new FakeAccountRepository(accounts);
+        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
         var actual = await service.Withdraw(
