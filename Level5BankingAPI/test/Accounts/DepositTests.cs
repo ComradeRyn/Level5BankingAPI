@@ -9,9 +9,9 @@ namespace Test.Accounts;
 
 public class DepositTests
 {
-    private const decimal AccountBalance = 1;
-    private readonly Account _account;
+    private const decimal InitialAccountBalance = 1;
     private readonly AccountsService _service;
+    private readonly Account _account;
 
     public DepositTests()
     {
@@ -19,7 +19,7 @@ public class DepositTests
         {
             Id = "0",
             HolderName = "Foo F Foobert",
-            Balance = AccountBalance,
+            Balance = InitialAccountBalance,
         };
 
         _service = AccountsTestHelpers.CreateService(new FakeAccountRepository(
@@ -47,7 +47,7 @@ public class DepositTests
             new Application.DTOs.Account(
                 _account.Id, 
                 _account.HolderName, 
-                AccountBalance + positiveAmount),
+                InitialAccountBalance + positiveAmount),
             actual.Content);
     }
 
