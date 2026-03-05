@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Application.Services;
 using Domain.Models;
 using Test.Accounts.Helpers;
 using Test.Repositories;
@@ -8,20 +9,22 @@ namespace Test.Accounts;
 
 public class TransferTests
 {
-    [Fact]
-    public async Task Transfer_PositiveLessThanOrEqualBalance_ReturnUpdatedReceiverAccount()
+    private const decimal SenderBalance = 1;
+    
+    private readonly Account _sender;
+    private readonly Account _receiver;
+    private readonly AccountsService _service;
+
+    public TransferTests()
     {
-        // Arrange
-        const decimal transferAmount = 1;
-        const decimal senderBalance = 1;
-        var sender = new Account
+        _sender = new Account
         {
             Id = "0",
             HolderName = "Foo F Foobert",
-            Balance = senderBalance
+            Balance = SenderBalance
         };
 
-        var receiver = new Account
+        _receiver = new Account
         {
             Id = "1",
             HolderName = "Bar B Barson",
@@ -31,26 +34,33 @@ public class TransferTests
         var repository = new FakeAccountRepository(
             new Dictionary<string, Account>()
             {
-                { sender.Id, sender },
-                { receiver.Id, receiver }
+                { _sender.Id, _sender },
+                { _receiver.Id, _receiver }
             });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
+
+        _service = AccountsTestHelpers.CreateService(repository);
+    }
+    
+    [Fact]
+    public async Task Transfer_PositiveLessThanOrEqualBalance_ReturnUpdatedReceiverAccount()
+    {
+        // Arrange
+        const decimal transferAmount = 1;
 
         // Act
-        var actual = await service.Transfer(
+        var actual = await _service.Transfer(
             new TransferRequest(
                 transferAmount, 
-                sender.Id, 
-                receiver.Id));
+                _sender.Id, 
+                _receiver.Id));
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
             new Application.DTOs.Account(
-                sender.Id,
-                sender.HolderName,
-                senderBalance - transferAmount), 
+                _sender.Id,
+                _sender.HolderName,
+                SenderBalance - transferAmount), 
             actual.Content);
     }
 
@@ -60,26 +70,12 @@ public class TransferTests
         // Arrange
         const decimal transferAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var sender = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { sender.Id, sender },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-
+       
         // Act
-        var actual = await service.Transfer(
+        var actual = await _service.Transfer(
             new TransferRequest(
                 transferAmount,
-                sender.Id,
+                _sender.Id,
                 nonExistentAccountId));
 
         // Assert
@@ -93,28 +89,13 @@ public class TransferTests
         // Arrange
         const decimal transferAmount = 1;
         const string nonExistentAccountId = "invalid";
-
-        var receiver = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Barson",
-            Balance = 1
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>()
-            {
-                { receiver.Id, receiver }
-            });
         
-        var service = AccountsTestHelpers.CreateService(repository);
-
         // Act
-        var actual = await service.Transfer(
+        var actual = await _service.Transfer(
             new TransferRequest(
                 transferAmount, 
                 nonExistentAccountId,
-                receiver.Id));
+                _receiver.Id));
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
@@ -126,36 +107,13 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 0;
-        const decimal senderBalance = 1;
-        var sender = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = senderBalance
-        };
-
-        var receiver = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Barson",
-            Balance = 1
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>()
-            {
-                { sender.Id, sender },
-                { receiver.Id, receiver }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
-        var actual = await service.Transfer(
+        var actual = await _service.Transfer(
             new TransferRequest(
                 transferAmount, 
-                sender.Id, 
-                receiver.Id));
+                _sender.Id, 
+                _receiver.Id));
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
@@ -167,36 +125,13 @@ public class TransferTests
     {
         // Arrange
         const decimal transferAmount = 2;
-        const decimal senderBalance = 1;
-        var sender = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = senderBalance
-        };
-
-        var receiver = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Barson",
-            Balance = 1
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>()
-            {
-                { sender.Id, sender },
-                { receiver.Id, receiver }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
-        var actual = await service.Transfer(
+        var actual = await _service.Transfer(
             new TransferRequest(
                 transferAmount, 
-                sender.Id, 
-                receiver.Id));
+                _sender.Id, 
+                _receiver.Id));
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);

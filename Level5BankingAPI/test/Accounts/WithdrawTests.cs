@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Application.Services;
 using Domain.Models;
 using Test.Accounts.Helpers;
 using Test.Repositories;
@@ -8,40 +9,47 @@ namespace Test.Accounts;
 
 public class WithdrawTests
 {
+    private const decimal AccountBalance = 1;
+    private readonly Account _account;
+    private readonly AccountsService _service;
+
+    public WithdrawTests()
+    {
+        _account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = AccountBalance
+        };
+
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>()
+            {
+                { _account.Id, _account }
+            });
+
+        _service = AccountsTestHelpers.CreateService(repository);
+    }
+    
     [Fact]
     public async Task Withdraw_PositiveLessThanOrEqualBalance_ReturnUpdatedAccount()
     {
         // Arrange
-        const decimal accountBalance = 1;
         const decimal withdrawAmount = 1;
-        var account = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = accountBalance
-        };
-
-        var repository = new FakeAccountRepository(
-        new Dictionary<string, Account>()
-            {
-                { account.Id, account }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Withdraw(
+        var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
-                account.Id,
+                _account.Id,
                 new ChangeBalanceRequest(withdrawAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
             new Application.DTOs.Account(
-                account.Id, 
-                account.HolderName, 
-                accountBalance - withdrawAmount), 
+                _account.Id, 
+                _account.HolderName, 
+                AccountBalance - withdrawAmount), 
             actual.Content);
     }
 
@@ -50,25 +58,11 @@ public class WithdrawTests
     {
         // Arrange
         const decimal withdrawAmount = 0;
-        var account = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>()
-            {
-                { account.Id, account }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Withdraw(
+        var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
-                account.Id,
+                _account.Id,
                 new ChangeBalanceRequest(withdrawAmount)));
         
         // Assert
@@ -82,11 +76,9 @@ public class WithdrawTests
         // Arrange
         const decimal withdrawAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Withdraw(
+        var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
                 nonExistentAccountId, 
                 new ChangeBalanceRequest(withdrawAmount)));
@@ -100,27 +92,12 @@ public class WithdrawTests
     public async Task Withdraw_GreaterThanBalance_ReturnFailure()
     {
         // Arrange
-        const decimal accountBalance = 1;
         const decimal withdrawAmount = 2;
-        var account = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = accountBalance
-        };
-        
-        var accounts = new Dictionary<string, Account>()
-        {
-            { account.Id, account }
-        };
-
-        var repository = new FakeAccountRepository(accounts);
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Withdraw(
+        var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
-                account.Id,
+                _account.Id,
                 new ChangeBalanceRequest(withdrawAmount)));
         
         // Assert

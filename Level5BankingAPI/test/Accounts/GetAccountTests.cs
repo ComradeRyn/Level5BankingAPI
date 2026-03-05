@@ -8,16 +8,34 @@ namespace Test.Accounts;
 
 public class GetAccountTests
 {
+    private readonly Account _account = new()
+    {
+        Id = "0",
+        HolderName = "Foo F Foobert",
+        Balance = 1
+    };
+
+    private readonly AccountsService _service;
+
+    public GetAccountTests()
+    {
+        var repository = new FakeAccountRepository(
+            new Dictionary<string, Account>()
+            {
+                { _account.Id, _account }
+            });
+
+        _service = AccountsTestHelpers.CreateService(repository);
+    }
+    
     [Fact]
     public async Task GetAccount_NonExistentAccount_ReturnFailure()
     {
         // Arrange
         const string nonIncludedId = "invalid";
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.GetAccount(nonIncludedId);
+        var actual = await _service.GetAccount(nonIncludedId);
         
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
@@ -27,27 +45,11 @@ public class GetAccountTests
     [Fact]
     public async Task GetAccount_ExistentAccount_ReturnFoundAccount()
     {
-        // Arrange
-        var account = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-        
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>()
-            {
-                { account.Id, account }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
         // Act
-        var actual = await service.GetAccount(account.Id);
+        var actual = await _service.GetAccount(_account.Id);
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
-        Assert.Equal(account.AsDto(), actual.Content);
+        Assert.Equal(_account.AsDto(), actual.Content);
     }
 }
