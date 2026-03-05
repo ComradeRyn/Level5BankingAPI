@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Application.Services;
 using Domain.Models;
 using Test.Accounts.Helpers;
 using Test.Repositories;
@@ -8,40 +9,46 @@ namespace Test.Accounts;
 
 public class DepositTests
 {
+    private const decimal AccountBalance = 1;
+    private readonly Account _account;
+    private readonly AccountsService _service;
+
+    public DepositTests()
+    {
+        _account = new Account
+        {
+            Id = "0",
+            HolderName = "Foo F Foobert",
+            Balance = AccountBalance,
+        };
+        
+        var repository = new FakeAccountRepository(new Dictionary<string, Account>
+        {
+            { _account.Id, _account }
+        });
+
+        _service = AccountsTestHelpers.CreateService(repository);
+    }
+    
     [Fact]
     public async Task Deposit_PositiveAmount_ReturnUpdatedAccount()
     {
         // Arrange
         const decimal positiveAmount = 1;
-        const decimal accountBalance = 0;
-        var account = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = accountBalance
-        };
-
-        var repository = new FakeAccountRepository(
-        new Dictionary<string, Account>
-            {
-                { account.Id, account }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Deposit(
+        var actual = await _service.Deposit(
             new AccountRequest<ChangeBalanceRequest>(
-                account.Id, 
+                _account.Id, 
                 new ChangeBalanceRequest(positiveAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
         Assert.Equal(
             new Application.DTOs.Account(
-                account.Id, 
-                account.HolderName, 
-                accountBalance + positiveAmount),
+                _account.Id, 
+                _account.HolderName, 
+                AccountBalance + positiveAmount),
             actual.Content);
     }
 
@@ -50,25 +57,11 @@ public class DepositTests
     {
         // Arrange
         const decimal zeroOrLessAmount = 0;
-        var account = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-
-        var repository = new FakeAccountRepository(
-    new Dictionary<string, Account>
-            {
-                { account.Id, account }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Deposit(
+        var actual = await _service.Deposit(
             new AccountRequest<ChangeBalanceRequest>(
-                account.Id, 
+                _account.Id, 
                 new ChangeBalanceRequest(zeroOrLessAmount)));
         
         // Assert
@@ -82,11 +75,9 @@ public class DepositTests
         // Arrange
         const decimal positiveAmount = 1;
         const string nonExistentAccountId = "invalid";
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Deposit(
+        var actual = await _service.Deposit(
             new AccountRequest<ChangeBalanceRequest>(
                 nonExistentAccountId, 
                 new ChangeBalanceRequest(positiveAmount)));
