@@ -9,7 +9,7 @@ namespace Test.Accounts;
 public class GetAccountTests
 {
     [Fact]
-    public async Task Get_NonExistentAccount_ReturnFailure()
+    public async Task GetAccount_NonExistentAccount_ReturnFailure()
     {
         // Arrange
         const string nonIncludedId = "invalid";
@@ -25,7 +25,7 @@ public class GetAccountTests
     }
 
     [Fact]
-    public async Task Get_ExistentAccount_ReturnFoundAccount()
+    public async Task GetAccount_ExistentAccount_ReturnFoundAccount()
     {
         // Arrange
         var account = new Account

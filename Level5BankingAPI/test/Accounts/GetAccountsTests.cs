@@ -10,9 +10,10 @@ namespace Test.Accounts;
 public class GetAccountsTests
 {
     [Fact]
-    public async Task Sort_ByNull_ReturnAccountList()
+    public async Task GetAccounts_SortByNull_ReturnAccountList()
     {
         // Arrange
+        // TODO: This way of setting up feels weird, how can it be fixed
         var fooAccount = new Account
         {
             Id = "0",
@@ -66,7 +67,7 @@ public class GetAccountsTests
     }
     
     [Fact]
-    public async Task Sort_ByName_ReturnAccountListSortedByName()
+    public async Task GetAccounts_SortByName_ReturnAccountListSortedByName()
     {
         // Arrange
         var fooAccount = new Account
@@ -122,7 +123,7 @@ public class GetAccountsTests
     }
 
     [Fact]
-    public async Task Sort_ByBalance_ReturnAccountListSortedByBalance()
+    public async Task GetAccounts_SortByBalance_ReturnAccountListSortedByBalance()
     {
         // Arrange
         var fooAccount = new Account
@@ -178,7 +179,7 @@ public class GetAccountsTests
     }
 
     [Fact]
-    public async Task Sort_ByInvalidKeyword_ReturnFailure()
+    public async Task GetAccounts_ByInvalidKeyword_ReturnFailure()
     {
         // Arrange
         var fooAccount = new Account
@@ -227,7 +228,7 @@ public class GetAccountsTests
     }
 
     [Fact]
-    public async Task Pagination_PageNumberZeroOrLess_ReturnPageNumberOneResults()
+    public async Task GetAccounts_PageNumberZeroOrLess_ReturnPageNumberOne()
     {
         // Arrange
         var fooAccount = new Account
@@ -276,7 +277,7 @@ public class GetAccountsTests
     }
 
     [Fact]
-    public async Task Pagination_ValidPageNumber_ReturnRequestedPage()
+    public async Task GetAccounts_ValidPageNumber_ReturnRequestedPage()
     {
         // Arrange
         var fooAccount = new Account
@@ -325,7 +326,7 @@ public class GetAccountsTests
     }
 
     [Fact]
-    public async Task Pagination_PageSizeZeroOrLess_ReturnPageSizeTenResults()
+    public async Task GetAccounts_PageSizeZeroOrLess_ReturnPageSizeTen()
     {
         // Arrange
         var fooAccount = new Account
@@ -374,7 +375,7 @@ public class GetAccountsTests
     }
 
     [Fact]
-    public async Task Pagination_ValidPageSize_ReturnRequestedPageSize()
+    public async Task GetAccounts_ValidPageSize_ReturnRequestedPageSize()
     {
         // Arrange
         var fooAccount = new Account
