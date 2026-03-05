@@ -9,6 +9,7 @@ namespace Test.Accounts;
 
 public class GetAccountsTests
 {
+    private readonly AccountsService _service;
     private readonly Account _fooAccount = new()
     {
         Id = "0",
@@ -29,8 +30,6 @@ public class GetAccountsTests
         HolderName = "Baz B Bazert",
         Balance = 2,
     };
-
-    private readonly AccountsService _service;
     
     public GetAccountsTests()
     {
@@ -41,17 +40,19 @@ public class GetAccountsTests
                 { _barAccount.Id, _barAccount },
                 { _bazAccount.Id, _bazAccount }
             }));
-                    
     }
     
     [Fact]
     public async Task GetAccounts_SortByNull_ReturnAccountList()
     {
+        // Arrange
+        const string? sortBy = null;
+        
         // Act
         var (actual, _) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
-                null, 
+                sortBy, 
                 false, 
                 1, 
                 10));
@@ -71,11 +72,14 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_SortByName_ReturnAccountListSortedByName()
     {
+        // Arrange
+        const string sortBy = "name";
+        
         // Act
         var (actual, _) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
-                "name", 
+                sortBy, 
                 false, 
                 1, 
                 10));
@@ -95,11 +99,14 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_SortByBalance_ReturnAccountListSortedByBalance()
     {
+        // Arrange
+        const string sortBy = "balance";
+        
         // Act
         var (actual, _) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
-                "balance", 
+                sortBy, 
                 false, 
                 1, 
                 10));
@@ -119,11 +126,14 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_ByInvalidKeyword_ReturnFailure()
     {
+        // Arrange
+        const string sortBy = "invalid";
+        
         // Act
         var (actual, _) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
-                "invalid", 
+                sortBy, 
                 true, 
                 1, 
                 10));
@@ -136,13 +146,16 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_PageNumberZeroOrLess_ReturnPageNumberOne()
     {
+        // Arrange
+        const int pageNumberZeroOrLess = 0;
+        
         // Act
         var (actual ,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 null, 
                 false, 
-                0, 
+                pageNumberZeroOrLess, 
                 10));
         
         // Assert
@@ -153,13 +166,16 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_ValidPageNumber_ReturnRequestedPage()
     {
+        // Arrange
+        const int validPageNumber = 2;
+        
         // Act
         var (actual,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 null, 
                 false, 
-                2, 
+                validPageNumber, 
                 1));
         
         // Assert
@@ -170,6 +186,9 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_PageSizeZeroOrLess_ReturnPageSizeTen()
     { 
+        // Arrange
+        const int pageSizeZeroOrLess = 0;
+        
         // Act
         var (actual,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
@@ -177,7 +196,7 @@ public class GetAccountsTests
                 null,
                 false,
                 1,
-                0));
+                pageSizeZeroOrLess));
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
@@ -187,6 +206,9 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_ValidPageSize_ReturnRequestedPageSize()
     {
+        // Arrange
+        const int validPageSize = 2;
+        
         // Act
         var (actual,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
@@ -194,7 +216,7 @@ public class GetAccountsTests
                 null,
                 false,
                 1,
-                2));
+                validPageSize));
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
