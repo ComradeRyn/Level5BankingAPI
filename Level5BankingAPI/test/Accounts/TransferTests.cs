@@ -31,14 +31,12 @@ public class TransferTests
             Balance = 1
         };
 
-        var repository = new FakeAccountRepository(
+        _service = AccountsTestHelpers.CreateService(new FakeAccountRepository(
             new Dictionary<string, Account>()
             {
                 { _sender.Id, _sender },
                 { _receiver.Id, _receiver }
-            });
-
-        _service = AccountsTestHelpers.CreateService(repository);
+            }));
     }
     
     [Fact]

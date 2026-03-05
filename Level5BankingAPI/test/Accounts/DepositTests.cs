@@ -21,13 +21,12 @@ public class DepositTests
             HolderName = "Foo F Foobert",
             Balance = AccountBalance,
         };
-        
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>
-        {
-            { _account.Id, _account }
-        });
 
-        _service = AccountsTestHelpers.CreateService(repository);
+        _service = AccountsTestHelpers.CreateService(new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { _account.Id, _account }
+            }));
     }
     
     [Fact]

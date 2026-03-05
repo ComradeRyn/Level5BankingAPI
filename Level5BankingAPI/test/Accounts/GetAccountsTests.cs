@@ -34,14 +34,14 @@ public class GetAccountsTests
     
     public GetAccountsTests()
     {
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>
-        {
-            { _fooAccount.Id, _fooAccount },
-            { _barAccount.Id, _barAccount },
-            { _bazAccount.Id, _bazAccount }
-        });
-
-        _service = AccountsTestHelpers.CreateService(repository);
+        _service = AccountsTestHelpers.CreateService(new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { _fooAccount.Id, _fooAccount },
+                { _barAccount.Id, _barAccount },
+                { _bazAccount.Id, _bazAccount }
+            }));
+                    
     }
     
     [Fact]

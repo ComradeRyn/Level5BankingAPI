@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
+using Application.Services;
 using Domain.Models;
 using Test.Accounts.Helpers;
 using Test.Repositories;
@@ -8,16 +9,22 @@ namespace Test.Accounts;
 
 public class CreateTests
 {
+    private readonly AccountsService _service;
+
+    public CreateTests()
+    {
+        _service = AccountsTestHelpers.CreateService(new FakeAccountRepository(
+            new Dictionary<string, Account>()));
+    }
+    
     [Fact]
     public async Task Create_AccountWithValidName_ReturnCreatedAccount()
     {
         // Arrange
         const string validName = "Foo F Foobert";
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
-        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
-        var actual = await service.CreateAccount(new CreationRequest(validName));
+        var actual = await _service.CreateAccount(new CreationRequest(validName));
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
@@ -34,11 +41,9 @@ public class CreateTests
     {
         // Arrange
         const string invalidName = "invalid";
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
-        var service = AccountsTestHelpers.CreateService(repository);
 
         // Act
-        var actual = await service.CreateAccount(new CreationRequest(invalidName));
+        var actual = await _service.CreateAccount(new CreationRequest(invalidName));
         
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);

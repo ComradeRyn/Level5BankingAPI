@@ -22,13 +22,11 @@ public class WithdrawTests
             Balance = AccountBalance
         };
 
-        var repository = new FakeAccountRepository(
+        _service = AccountsTestHelpers.CreateService(new FakeAccountRepository(
             new Dictionary<string, Account>()
             {
                 { _account.Id, _account }
-            });
-
-        _service = AccountsTestHelpers.CreateService(repository);
+            }));
     }
     
     [Fact]

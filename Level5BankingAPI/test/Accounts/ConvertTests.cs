@@ -10,6 +10,7 @@ namespace Test.Accounts;
 
 public class ConvertTests
 {
+    private readonly AccountsService _service;
     private readonly Account _account = new()
     {
         Id = "0",
@@ -17,16 +18,13 @@ public class ConvertTests
         Balance = 1
     };
 
-    private readonly AccountsService _service;
-
     public ConvertTests()
     {
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>
-        {
-            { _account.Id, _account }
-        });
-
-        _service = AccountsTestHelpers.CreateService(repository);
+        _service = AccountsTestHelpers.CreateService(new FakeAccountRepository(
+            new Dictionary<string, Account>
+            {
+                { _account.Id, _account }
+            }));
     }
     
     [Fact]
