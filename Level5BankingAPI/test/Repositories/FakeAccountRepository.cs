@@ -82,7 +82,4 @@ public class FakeAccountRepository : IAccountsRepository
 
         return Task.FromResult(account);
     }
-
-    public void AddExistingAccount(Account account)
-        => _accounts.Add(account.Id, account);
 }
