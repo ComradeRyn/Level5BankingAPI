@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using Domain.Models;
 using Test.Clients;
 using Test.Repositories;
 
@@ -15,5 +16,5 @@ public static class AccountsTestHelpers
         };
         
         return new AccountsService(repository, new FakeCurrencyClient(conversionDictionary));
-    } 
+    }
 }

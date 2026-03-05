@@ -68,7 +68,7 @@ public class TransferTests
         };
 
         var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>()
+            new Dictionary<string, Account>
             {
                 { sender.Id, sender },
             });

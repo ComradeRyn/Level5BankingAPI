@@ -9,44 +9,46 @@ namespace Test.Accounts;
 
 public class GetAccountsTests
 {
+    private readonly Account _fooAccount = new()
+    {
+        Id = "0",
+        HolderName = "Foo F Foobert",
+        Balance = 1
+    };
+
+    private readonly Account _barAccount = new()
+    {
+        Id = "1",
+        HolderName = "Bar B Babert",
+        Balance = 1,
+    };
+
+    private readonly Account _bazAccount = new()
+    {
+        Id = "2",
+        HolderName = "Baz B Bazert",
+        Balance = 2,
+    };
+
+    private readonly AccountsService _service;
+    
+    public GetAccountsTests()
+    {
+        var repository = new FakeAccountRepository(new Dictionary<string, Account>
+        {
+            { _fooAccount.Id, _fooAccount },
+            { _barAccount.Id, _barAccount },
+            { _bazAccount.Id, _bazAccount }
+        });
+
+        _service = AccountsTestHelpers.CreateService(repository);
+    }
+    
     [Fact]
     public async Task GetAccounts_SortByNull_ReturnAccountList()
     {
-        // Arrange
-        // TODO: This way of setting up feels weird, how can it be fixed
-        var fooAccount = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-        
-        var barAccount = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Babert",
-            Balance = 1,
-        };
-
-        var bazAccount = new Account
-        {
-            Id = "2",
-            HolderName = "Baz B Bazert",
-            Balance = 2,
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { fooAccount.Id, fooAccount },
-                { barAccount.Id, barAccount },
-                { bazAccount.Id, bazAccount },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
         // Act
-        var (actual, _) = await service.GetAccounts(
+        var (actual, _) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 null, 
@@ -59,9 +61,9 @@ public class GetAccountsTests
         Assert.Equal(
             new List<Application.DTOs.Account>
             {
-                fooAccount.AsDto(),
-                barAccount.AsDto(),
-                bazAccount.AsDto(),
+                _fooAccount.AsDto(),
+                _barAccount.AsDto(),
+                _bazAccount.AsDto(),
             },
             actual.Content);
     }
@@ -69,40 +71,8 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_SortByName_ReturnAccountListSortedByName()
     {
-        // Arrange
-        var fooAccount = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-        
-        var barAccount = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Babert",
-            Balance = 1,
-        };
-
-        var bazAccount = new Account
-        {
-            Id = "2",
-            HolderName = "Baz B Bazert",
-            Balance = 2,
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { fooAccount.Id, fooAccount },
-                { barAccount.Id, barAccount },
-                { bazAccount.Id, bazAccount },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
         // Act
-        var (actual, _) = await service.GetAccounts(
+        var (actual, _) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 "name", 
@@ -115,9 +85,9 @@ public class GetAccountsTests
         Assert.Equal(
             new List<Application.DTOs.Account>
             {
-                barAccount.AsDto(),
-                bazAccount.AsDto(),
-                fooAccount.AsDto(),
+                _barAccount.AsDto(),
+                _bazAccount.AsDto(),
+                _fooAccount.AsDto(),
             },
             actual.Content);
     }
@@ -125,40 +95,8 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_SortByBalance_ReturnAccountListSortedByBalance()
     {
-        // Arrange
-        var fooAccount = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 0
-        };
-        
-        var barAccount = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Babert",
-            Balance = 1,
-        };
-
-        var bazAccount = new Account
-        {
-            Id = "2",
-            HolderName = "Baz B Bazert",
-            Balance = 2,
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { fooAccount.Id, fooAccount },
-                { barAccount.Id, barAccount },
-                { bazAccount.Id, bazAccount },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
         // Act
-        var (actual, _) = await service.GetAccounts(
+        var (actual, _) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 "balance", 
@@ -171,9 +109,9 @@ public class GetAccountsTests
         Assert.Equal(
             new List<Application.DTOs.Account>
             {
-                fooAccount.AsDto(),
-                barAccount.AsDto(),
-                bazAccount.AsDto(),
+                _fooAccount.AsDto(),
+                _barAccount.AsDto(),
+                _bazAccount.AsDto(),
             },
             actual.Content);
     }
@@ -181,40 +119,8 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_ByInvalidKeyword_ReturnFailure()
     {
-        // Arrange
-        var fooAccount = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-        
-        var barAccount = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Babert",
-            Balance = 1,
-        };
-
-        var bazAccount = new Account
-        {
-            Id = "2",
-            HolderName = "Baz B Bazert",
-            Balance = 2,
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { fooAccount.Id, fooAccount },
-                { barAccount.Id, barAccount },
-                { bazAccount.Id, bazAccount },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
         // Act
-        var (actual, _) = await service.GetAccounts(
+        var (actual, _) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 "invalid", 
@@ -230,40 +136,8 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_PageNumberZeroOrLess_ReturnPageNumberOne()
     {
-        // Arrange
-        var fooAccount = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-        
-        var barAccount = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Babert",
-            Balance = 1,
-        };
-
-        var bazAccount = new Account
-        {
-            Id = "2",
-            HolderName = "Baz B Bazert",
-            Balance = 2,
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { fooAccount.Id, fooAccount },
-                { barAccount.Id, barAccount },
-                { bazAccount.Id, bazAccount },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
         // Act
-        var (actual ,paginationMetadata) = await service.GetAccounts(
+        var (actual ,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 null, 
@@ -279,40 +153,8 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_ValidPageNumber_ReturnRequestedPage()
     {
-        // Arrange
-        var fooAccount = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-        
-        var barAccount = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Babert",
-            Balance = 1,
-        };
-
-        var bazAccount = new Account
-        {
-            Id = "2",
-            HolderName = "Baz B Bazert",
-            Balance = 2,
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { fooAccount.Id, fooAccount },
-                { barAccount.Id, barAccount },
-                { bazAccount.Id, bazAccount },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
         // Act
-        var (actual,paginationMetadata) = await service.GetAccounts(
+        var (actual,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 null, 
@@ -327,41 +169,9 @@ public class GetAccountsTests
 
     [Fact]
     public async Task GetAccounts_PageSizeZeroOrLess_ReturnPageSizeTen()
-    {
-        // Arrange
-        var fooAccount = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-        
-        var barAccount = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Babert",
-            Balance = 1,
-        };
-
-        var bazAccount = new Account
-        {
-            Id = "2",
-            HolderName = "Baz B Bazert",
-            Balance = 2,
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { fooAccount.Id, fooAccount },
-                { barAccount.Id, barAccount },
-                { bazAccount.Id, bazAccount },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
+    { 
         // Act
-        var (actual,paginationMetadata) = await service.GetAccounts(
+        var (actual,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null,
                 null,
@@ -377,40 +187,8 @@ public class GetAccountsTests
     [Fact]
     public async Task GetAccounts_ValidPageSize_ReturnRequestedPageSize()
     {
-        // Arrange
-        var fooAccount = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-        
-        var barAccount = new Account
-        {
-            Id = "1",
-            HolderName = "Bar B Babert",
-            Balance = 1,
-        };
-
-        var bazAccount = new Account
-        {
-            Id = "2",
-            HolderName = "Baz B Bazert",
-            Balance = 2,
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { fooAccount.Id, fooAccount },
-                { barAccount.Id, barAccount },
-                { bazAccount.Id, bazAccount },
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
-        
         // Act
-        var (actual,paginationMetadata) = await service.GetAccounts(
+        var (actual,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null,
                 null,
@@ -424,8 +202,8 @@ public class GetAccountsTests
         Assert.Equal(
             new List<Application.DTOs.Account>
             {
-                fooAccount.AsDto(),
-                barAccount.AsDto(),
+                _fooAccount.AsDto(),
+                _barAccount.AsDto(),
             },
             actual.Content);
     }
