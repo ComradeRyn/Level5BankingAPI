@@ -8,14 +8,13 @@ namespace Test.Accounts;
 
 public class GetAccountTests
 {
+    private readonly AccountsService _service;
     private readonly Account _account = new()
     {
         Id = "0",
         HolderName = "Foo F Foobert",
         Balance = 1
     };
-
-    private readonly AccountsService _service;
 
     public GetAccountTests()
     {
