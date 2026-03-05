@@ -11,9 +11,9 @@ public class TransferTests
 {
     private const decimal SenderBalance = 1;
     
+    private readonly AccountsService _service;
     private readonly Account _sender;
     private readonly Account _receiver;
-    private readonly AccountsService _service;
 
     public TransferTests()
     {
@@ -43,12 +43,12 @@ public class TransferTests
     public async Task Transfer_PositiveLessThanOrEqualBalance_ReturnUpdatedReceiverAccount()
     {
         // Arrange
-        const decimal transferAmount = 1;
+        const decimal validAmount = 1;
 
         // Act
         var actual = await _service.Transfer(
             new TransferRequest(
-                transferAmount, 
+                validAmount, 
                 _sender.Id, 
                 _receiver.Id));
 
@@ -58,7 +58,7 @@ public class TransferTests
             new Application.DTOs.Account(
                 _sender.Id,
                 _sender.HolderName,
-                SenderBalance - transferAmount), 
+                SenderBalance - validAmount), 
             actual.Content);
     }
 
@@ -66,13 +66,12 @@ public class TransferTests
     public async Task Transfer_ToNonexistentAccount_ReturnFailure()
     {
         // Arrange
-        const decimal transferAmount = 1;
         const string nonExistentAccountId = "invalid";
        
         // Act
         var actual = await _service.Transfer(
             new TransferRequest(
-                transferAmount,
+                1,
                 _sender.Id,
                 nonExistentAccountId));
 
@@ -85,13 +84,12 @@ public class TransferTests
     public async Task Transfer_FromNonexistentAccount_ReturnFailure()
     {
         // Arrange
-        const decimal transferAmount = 1;
         const string nonExistentAccountId = "invalid";
         
         // Act
         var actual = await _service.Transfer(
             new TransferRequest(
-                transferAmount, 
+                1, 
                 nonExistentAccountId,
                 _receiver.Id));
 
@@ -104,12 +102,12 @@ public class TransferTests
     public async Task Transfer_ZeroOrLess_ReturnFailure()
     {
         // Arrange
-        const decimal transferAmount = 0;
+        const decimal zeroOrLessAmount = 0;
 
         // Act
         var actual = await _service.Transfer(
             new TransferRequest(
-                transferAmount, 
+                zeroOrLessAmount, 
                 _sender.Id, 
                 _receiver.Id));
 
@@ -122,12 +120,12 @@ public class TransferTests
     public async Task Transfer_LargerThanSenderBalance_ReturnFailure()
     {
         // Arrange
-        const decimal transferAmount = 2;
+        const decimal largerThanBalanceAmount = 2;
 
         // Act
         var actual = await _service.Transfer(
             new TransferRequest(
-                transferAmount, 
+                largerThanBalanceAmount, 
                 _sender.Id, 
                 _receiver.Id));
 
