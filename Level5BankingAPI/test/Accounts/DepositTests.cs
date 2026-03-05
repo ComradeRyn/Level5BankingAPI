@@ -33,13 +33,13 @@ public class DepositTests
     public async Task Deposit_PositiveAmount_ReturnUpdatedAccount()
     {
         // Arrange
-        const decimal positiveAmount = 1;
+        const decimal validAmount = 1;
         
         // Act
         var actual = await _service.Deposit(
             new AccountRequest<ChangeBalanceRequest>(
                 _account.Id, 
-                new ChangeBalanceRequest(positiveAmount)));
+                new ChangeBalanceRequest(validAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
@@ -47,7 +47,7 @@ public class DepositTests
             new Application.DTOs.Account(
                 _account.Id, 
                 _account.HolderName, 
-                InitialAccountBalance + positiveAmount),
+                InitialAccountBalance + validAmount),
             actual.Content);
     }
 
@@ -72,14 +72,13 @@ public class DepositTests
     public async Task Deposit_ToNonexistentAccount_ReturnFailure()
     {
         // Arrange
-        const decimal positiveAmount = 1;
         const string nonExistentAccountId = "invalid";
         
         // Act
         var actual = await _service.Deposit(
             new AccountRequest<ChangeBalanceRequest>(
                 nonExistentAccountId, 
-                new ChangeBalanceRequest(positiveAmount)));
+                new ChangeBalanceRequest(1)));
         
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);

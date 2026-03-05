@@ -71,14 +71,13 @@ public class ConvertTests
     public async Task Convert_NonexistentAccount_ReturnFailure()
     {
         // Arrange
-        const string validConversionRequest = "fakeCurrency1";
         const string nonexistentId = "invalid";
         
         // Act
         var actual = await _service.Convert(
             new AccountRequest<ConversionRequest>(
                 nonexistentId,
-                new ConversionRequest(validConversionRequest)));
+                new ConversionRequest("fakeCurrency1")));
         
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
