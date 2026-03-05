@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Application.DTOs.Requests;
 using Application.DTOs.Responses;
+using Application.Services;
 using Domain.Models;
 using Test.Accounts.Helpers;
 using Test.Repositories;
@@ -9,30 +10,35 @@ namespace Test.Accounts;
 
 public class ConvertTests
 {
+    private readonly Account _account = new()
+    {
+        Id = "0",
+        HolderName = "Foo F Foobert",
+        Balance = 1
+    };
+
+    private readonly AccountsService _service;
+
+    public ConvertTests()
+    {
+        var repository = new FakeAccountRepository(new Dictionary<string, Account>
+        {
+            { _account.Id, _account }
+        });
+
+        _service = AccountsTestHelpers.CreateService(repository);
+    }
+    
     [Fact]
     public async Task Convert_ToValidCurrencies_ReturnConvertedCurrencies()
     {
         // Arrange
         const string validConversionCurrency = "fakeCurrency1,fakeCurrency2";
-        var account = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { account.Id, account }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Convert(
+        var actual = await _service.Convert(
             new AccountRequest<ConversionRequest>(
-                account.Id, 
+                _account.Id, 
                 new ConversionRequest(validConversionCurrency)));
         
         // Assert
@@ -40,8 +46,8 @@ public class ConvertTests
         Assert.Equivalent(
             new ConversionResponse(new Dictionary<string, decimal>
             {
-                { "fakeCurrency1", account.Balance * 2 },
-                { "fakeCurrency2", account.Balance * 0.5m },
+                { "fakeCurrency1", _account.Balance * 2 },
+                { "fakeCurrency2", _account.Balance * 0.5m },
             }),
             actual.Content);
     }
@@ -51,25 +57,11 @@ public class ConvertTests
     {
         // Arrange
         const string invalidCurrency = "invalid";
-        var account = new Account
-        {
-            Id = "0",
-            HolderName = "Foo F Foobert",
-            Balance = 1
-        };
-
-        var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-            {
-                { account.Id, account }
-            });
-        
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Convert(
+        var actual = await _service.Convert(
             new AccountRequest<ConversionRequest>(
-                account.Id, 
+                _account.Id, 
                 new ConversionRequest(invalidCurrency)));
         
         // Assert
@@ -83,11 +75,9 @@ public class ConvertTests
         // Arrange
         const string validConversionRequest = "fakeCurrency1";
         const string nonexistentId = "invalid";
-        var repository = new FakeAccountRepository(new Dictionary<string, Account>());
-        var service = AccountsTestHelpers.CreateService(repository);
         
         // Act
-        var actual = await service.Convert(
+        var actual = await _service.Convert(
             new AccountRequest<ConversionRequest>(
                 nonexistentId,
                 new ConversionRequest(validConversionRequest)));
