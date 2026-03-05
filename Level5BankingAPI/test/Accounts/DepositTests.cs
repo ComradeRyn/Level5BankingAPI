@@ -22,10 +22,10 @@ public class DepositTests
         };
 
         var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-                {
-                    { account.Id, account }
-                });
+        new Dictionary<string, Account>
+            {
+                { account.Id, account }
+            });
         
         var service = AccountsTestHelpers.CreateService(repository);
         
@@ -49,7 +49,7 @@ public class DepositTests
     public async Task Deposit_ZeroOrLess_ReturnFailure()
     {
         // Arrange
-        const decimal zeroOrLessAmount = -1;
+        const decimal zeroOrLessAmount = 0;
         var account = new Account
         {
             Id = "0",
@@ -58,10 +58,10 @@ public class DepositTests
         };
 
         var repository = new FakeAccountRepository(
-            new Dictionary<string, Account>
-                    {
-                        { account.Id, account }
-                    });
+    new Dictionary<string, Account>
+            {
+                { account.Id, account }
+            });
         
         var service = AccountsTestHelpers.CreateService(repository);
         
