@@ -10,8 +10,8 @@ namespace Test.Accounts;
 public class WithdrawTests
 {
     private const decimal AccountBalance = 1;
-    private readonly Account _account;
     private readonly AccountsService _service;
+    private readonly Account _account;
 
     public WithdrawTests()
     {
@@ -33,13 +33,13 @@ public class WithdrawTests
     public async Task Withdraw_PositiveLessThanOrEqualBalance_ReturnUpdatedAccount()
     {
         // Arrange
-        const decimal withdrawAmount = 1;
+        const decimal validAmount = 1;
         
         // Act
         var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
                 _account.Id,
-                new ChangeBalanceRequest(withdrawAmount)));
+                new ChangeBalanceRequest(validAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
@@ -47,7 +47,7 @@ public class WithdrawTests
             new Application.DTOs.Account(
                 _account.Id, 
                 _account.HolderName, 
-                AccountBalance - withdrawAmount), 
+                AccountBalance - validAmount), 
             actual.Content);
     }
 
@@ -55,13 +55,13 @@ public class WithdrawTests
     public async Task Withdraw_ZeroOrLess_ReturnFailure()
     {
         // Arrange
-        const decimal withdrawAmount = 0;
+        const decimal zeroOrLessAmount = 0;
         
         // Act
         var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
                 _account.Id,
-                new ChangeBalanceRequest(withdrawAmount)));
+                new ChangeBalanceRequest(zeroOrLessAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
@@ -72,14 +72,13 @@ public class WithdrawTests
     public async Task Withdraw_FromNonexistentAccount_ReturnFailure()
     {
         // Arrange
-        const decimal withdrawAmount = 1;
         const string nonExistentAccountId = "invalid";
         
         // Act
         var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
                 nonExistentAccountId, 
-                new ChangeBalanceRequest(withdrawAmount)));
+                new ChangeBalanceRequest(1)));
         
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, actual.StatusCode);
@@ -90,13 +89,13 @@ public class WithdrawTests
     public async Task Withdraw_GreaterThanBalance_ReturnFailure()
     {
         // Arrange
-        const decimal withdrawAmount = 2;
+        const decimal greaterThanBalanceAmount = 2;
         
         // Act
         var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
                 _account.Id,
-                new ChangeBalanceRequest(withdrawAmount)));
+                new ChangeBalanceRequest(greaterThanBalanceAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
