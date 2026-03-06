@@ -14,10 +14,10 @@ This API allows for:
 
 ## Usage
 This API can be interacted with through its endpoints. While launched in develper mode, these endpoint are exposed 
-through a Swagger page with can be found at http://localhost:5079/swagger/index.html. This page contains documentation on each endpoint
+through a Swagger page which can be found at http://localhost:5079/swagger/index.html. This page contains documentation on each endpoint
 and their parameters.
 ### Authentication
-To use any of the endpoints which interact with account data, you first must acquired a JWT from the authentication
+To use any of the endpoints which interact with account data, you first must acquire a JWT from the authentication
 endpoint.
 
 ## Hosting
@@ -28,15 +28,31 @@ This is how the conversion functionality is facilitated. The API key can be plac
 * A SQL server to store the account data. Your connection string can be placed into the appsettings json as the 
 `AccountContext` variable.
 
-### Dependencies
-This project uses the following packages which can all be obtained through the nuget package manager:
-* `Microsoft.AspNetCore.Authentication.JwtBearer`
-* `Microsoft.AspNetCore.OpenApi`
-* `Microsoft.EntityFrameworkCore`
-* `Microsoft.EntityFrameworkCore.SqlServer`
-* `Microsoft.EntityFrameworkCore.Tools`
-* `Microsoft.IdentityModel.Tokens`
-* `Microsoft.VisualStudio.Web.CodeGeneration.Design`
-* `Swashbuckle.AspNetCore`
-* `System.IdentityModel.Tokens.Jwt`
+## Testing
+All files related to testing can be found in the `Test` project, which includes:
+* A fake Currency Client
+* A fake Account repository
+* Unit tests covering this project's application layer, facilitated by `XUnit`
+  * Can be run through use of `Microsoft.Testing.Platform`
 
+## Dependencies
+The projects in this solution uses the following packages which are obtainable through the nuget package manager:
+* Test
+  * `coverlet.collector`
+  * `Microsoft.NET.Test.Sdk`
+  * `Microsoft.Testing.Platform`
+  * `xunit.runner.visualstudio`
+  * `xunit.v3`
+* API
+  * `Microsoft.AspNetCore.OpenApi`
+  * `Microsoft.AspNetCore.Authentication.JwtBearer`
+  * `Microsoft.EntityFrameworkCore`
+  * `Microsoft.EntityFrameworkCore.SqlServer`
+  * `Microsoft.EntityFrameworkCore.Tools`
+  * `Microsoft.VisualStudio.Web.CodeGeneration.Design`
+  * `Swashbuckle.AspNetCore`
+* Application
+  * `Microsoft.AspNetCore.Authentication.JwtBearer`
+* Infrastructure
+  * `Microsoft.EntityFrameworkCore`
+  * `Microsoft.EntityFrameworkCore.SqlServer`
