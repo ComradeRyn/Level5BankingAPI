@@ -22,7 +22,7 @@ endpoint.
 
 ## Hosting
 After cloning the project, the requirements to host this API on your machine are the following:
-* An API key to the web address https://api.freecurrencyapi.com. 
+* An API key to the web address https://currencyapi.com/. 
 This is how the conversion functionality is facilitated. The API key can be placed into the appsettings json as the 
 `ApiWebAddress` variable.
 * A SQL server to store the account data. Your connection string can be placed into the appsettings json as the 
