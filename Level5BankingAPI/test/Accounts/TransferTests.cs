@@ -98,16 +98,15 @@ public class TransferTests
         Assert.Null(actual.Content);
     }
 
-    [Fact]
-    public async Task Transfer_ZeroOrLess_ReturnFailure()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public async Task Transfer_ZeroOrLess_ReturnFailure(decimal transferAmount)
     {
-        // Arrange
-        const decimal zeroOrLessAmount = 0;
-
         // Act
         var actual = await _service.Transfer(
             new TransferRequest(
-                zeroOrLessAmount, 
+                transferAmount, 
                 _sender.Id, 
                 _receiver.Id));
 
@@ -120,7 +119,7 @@ public class TransferTests
     public async Task Transfer_LargerThanSenderBalance_ReturnFailure()
     {
         // Arrange
-        const decimal largerThanBalanceAmount = 2;
+        const decimal largerThanBalanceAmount = SenderBalance + 1;
 
         // Act
         var actual = await _service.Transfer(

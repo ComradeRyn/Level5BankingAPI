@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Runtime.InteropServices;
 using Application.DTOs.Requests;
 using Application.Services;
 using Domain.Models;
@@ -51,17 +52,16 @@ public class WithdrawTests
             actual.Content);
     }
 
-    [Fact]
-    public async Task Withdraw_ZeroOrLess_ReturnFailure()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public async Task Withdraw_ZeroOrLess_ReturnFailure(decimal withdrawAmount)
     {
-        // Arrange
-        const decimal zeroOrLessAmount = 0;
-        
         // Act
         var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
                 _account.Id,
-                new ChangeBalanceRequest(zeroOrLessAmount)));
+                new ChangeBalanceRequest(withdrawAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
@@ -89,7 +89,7 @@ public class WithdrawTests
     public async Task Withdraw_GreaterThanBalance_ReturnFailure()
     {
         // Arrange
-        const decimal greaterThanBalanceAmount = 2;
+        const decimal greaterThanBalanceAmount = InitialAccountBalance + 1;
         
         // Act
         var actual = await _service.Withdraw(

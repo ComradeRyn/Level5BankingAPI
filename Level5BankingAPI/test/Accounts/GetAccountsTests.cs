@@ -143,19 +143,18 @@ public class GetAccountsTests
         Assert.Null(actual.Content);
     }
 
-    [Fact]
-    public async Task GetAccounts_PageNumberZeroOrLess_ReturnPageNumberOne()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public async Task GetAccounts_PageNumberZeroOrLess_ReturnPageNumberOne(int pageNumber)
     {
-        // Arrange
-        const int pageNumberZeroOrLess = 0;
-        
         // Act
         var (actual ,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
                 null, 
                 null, 
                 false, 
-                pageNumberZeroOrLess, 
+                pageNumber, 
                 10));
         
         // Assert
@@ -183,12 +182,11 @@ public class GetAccountsTests
         Assert.Equal(2, paginationMetadata!.CurrentPage);
     }
 
-    [Fact]
-    public async Task GetAccounts_PageSizeZeroOrLess_ReturnPageSizeTen()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public async Task GetAccounts_PageSizeZeroOrLess_ReturnPageSizeTen(int pageSize)
     { 
-        // Arrange
-        const int pageSizeZeroOrLess = 0;
-        
         // Act
         var (actual,paginationMetadata) = await _service.GetAccounts(
             new GetAccountsRequest(
@@ -196,7 +194,7 @@ public class GetAccountsTests
                 null,
                 false,
                 1,
-                pageSizeZeroOrLess));
+                pageSize));
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, actual.StatusCode);
