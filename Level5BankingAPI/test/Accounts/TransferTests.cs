@@ -101,12 +101,12 @@ public class TransferTests
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]
-    public async Task Transfer_ZeroOrLess_ReturnFailure(decimal transferAmount)
+    public async Task Transfer_ZeroOrLess_ReturnFailure(decimal invalidAmount)
     {
         // Act
         var actual = await _service.Transfer(
             new TransferRequest(
-                transferAmount, 
+                invalidAmount, 
                 _sender.Id, 
                 _receiver.Id));
 

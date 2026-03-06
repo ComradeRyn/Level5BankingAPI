@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Runtime.InteropServices;
 using Application.DTOs.Requests;
 using Application.Services;
 using Domain.Models;
@@ -55,13 +54,13 @@ public class WithdrawTests
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]
-    public async Task Withdraw_ZeroOrLess_ReturnFailure(decimal withdrawAmount)
+    public async Task Withdraw_ZeroOrLess_ReturnFailure(decimal invalidAmount)
     {
         // Act
         var actual = await _service.Withdraw(
             new AccountRequest<ChangeBalanceRequest>(
                 _account.Id,
-                new ChangeBalanceRequest(withdrawAmount)));
+                new ChangeBalanceRequest(invalidAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);

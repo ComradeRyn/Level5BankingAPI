@@ -54,13 +54,13 @@ public class DepositTests
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]
-    public async Task Deposit_ZeroOrLess_ReturnFailure(decimal depositAmount)
+    public async Task Deposit_ZeroOrLess_ReturnFailure(decimal invalidAmount)
     {
         // Act
         var actual = await _service.Deposit(
             new AccountRequest<ChangeBalanceRequest>(
                 _account.Id, 
-                new ChangeBalanceRequest(depositAmount)));
+                new ChangeBalanceRequest(invalidAmount)));
         
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
