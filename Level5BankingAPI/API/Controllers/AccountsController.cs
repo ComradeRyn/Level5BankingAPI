@@ -83,6 +83,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Account), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        
         public async Task<ActionResult<Account>> GetAccount(string id)
         {
             var response = await _service.GetAccount(id);
